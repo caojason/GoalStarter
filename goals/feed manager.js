@@ -6,20 +6,25 @@ var tags= ["weightloss", "competitive sports", "running", "weight training", "me
 module.exports = {
     tags, 
 
-        computeAffinity: function(userid, tag) {
+    computeAffinity: function(userid, tag) {
 
     },
 
-    getAllGoals: function(tag) {
+    timedOut: function(goal) {
 
     },
-    //create user feed, called everytime the user logs in. 
+
+    //create user feed, called everytime the user logs in. returns an array of goal ids for the user. 
     generateFeed : function(userid, date) {
         
         var feed = []; 
         var tag_scores = []; 
         var tag_sorted = [];
-        
+        var limit = 10; 
+
+        //first add all friends posts
+
+        //then compute for more posts.
         for(var i = 0; i < tags.length; i++) {
             var score = computeAffinity(userid, tags[i]); 
             tag_scores.push(score); 
@@ -35,8 +40,23 @@ module.exports = {
             tag_scores[index] = -1; 
         }
 
-        while(feed.length < 10) {
-            
+        var tag_index = 0; 
+        while(feed.length < limit) {
+
+            var goals = db.db_goal_search({tag: tag_sorted[tag_index]}); 
+
+            while(goals.length > 0 && feed.length < limit) {
+                
+                //filter by time last updated
+                if(timedOut(goals[0])) {
+                    goals.shift();
+                }
+                else {
+                    feed.push(goals[0].id); 
+                    goals.shift(); 
+                }
+            }
+            tag_index++; 
         }
 
 
