@@ -1,16 +1,53 @@
 var db = require("../database/db");
 var tags= ["weightloss", "competitive sports", "running", "weight training", "medical school", "employment", "undergraduate", "masters/PhD", "diet", "LoL", "Valorant", "Overwatch"]; 
 
+function updatescore( score,  tag, weight) {
 
+    for(var i = 0; i < tags.length; i++) {
+        if(tags[i] === tag) {
+            return score + weight; 
+        }
+    }
+}
 
 module.exports = {
     tags, 
 
     computeAffinity: function(userid, tag) {
+        var user = db.db_user_search({id : userid});
+        var likes = user.likes; 
+        var comments = user.comments; 
+        var posts = user.posts;  
+        var score = 0;
 
+        //factor in likes
+        for(var i = 0; i < likes.length; i++) {
+            var goal_tag = db.db_goal_search({id : likes[i]}),tag; 
+            if(goal_tag === tag) {score = updatescore(score, goal_tag, 1);} 
+        }
+        //factor in comments
+        for(var i = 0; i < comments.length; i++) {
+            var goal_tag = db.db_goal_search({id : comments[i]}).tag;
+            if(goal_tag === tag) {score = updatescore(score, goal_tag, 2);} 
+
+        }
+        //factor in posts. 
+        for(var i = 0; i < posts.length; i++) {
+            var goal_tag = db.db_goal_search({id: posts[i]}).tag; 
+            if(goal_tag === tag) {score = updatescore(score, goal_tag, 5);}  
+        }
+
+        return score; 
     },
 
+    //given the id of a post, check to see if the post is outdated
     timedOut: function(goal) {
+        var difference = 60 * 86400000; //allow for 60 days since last update. 
+        var date = new Date(Date.now()); 
+        var result = db.db_goal_search({id : goal}); 
+        var goal_date = Date.parse(result.date);
+        if(date.now() - difference >= goal_date) return true; 
+        else return false; 
 
     },
 
@@ -22,7 +59,15 @@ module.exports = {
         var tag_sorted = [];
         var limit = 10; 
 
-        //first add all friends posts
+        //first add the most recent goal of each friend
+        var friends = db.db_user_search({id : userid}).friendslist; 
+        for(var i = 0; i < friends.length && feed.length < limit; i++) {
+            var friend = db.db_user_search({id: friends[i]}); 
+            var post = friend.posts[posts.length - 1]; 
+            if(!timedOut(post)) {
+                feed.push(post); 
+            }
+        }
 
         //then compute for more posts.
         for(var i = 0; i < tags.length; i++) {
@@ -48,7 +93,7 @@ module.exports = {
             while(goals.length > 0 && feed.length < limit) {
                 
                 //filter by time last updated
-                if(timedOut(goals[0])) {
+                if(timedOut(goals[0]).id) {
                     goals.shift();
                 }
                 else {
