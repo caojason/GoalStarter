@@ -19,3 +19,10 @@ User:
 
     arrays contains ids not objects. 
 }
+
+URLs: 
+
+/ : login page
+/home: homescreen with goals feed 
+/home/postgoal: create a new goal
+/home/postgoal: 

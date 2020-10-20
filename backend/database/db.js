@@ -49,7 +49,7 @@ module.exports = {
         db.collection("users").deleteOne(query); 
     },
 
-    db_goal_delete: function (query, update) {
+    db_goal_delete: function (query) {
         db.collection("goals").deleteOne(query); 
     },
 
