@@ -15,7 +15,7 @@ likes number
 User: 
 
 {
-    id, username, friendslist[], posts[], comments[], likes[]; 
+    id, username,email, friendslist[], posts[], comments[], likes[]; 
 
     arrays contains ids not objects. 
 }
