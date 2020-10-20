@@ -47,17 +47,29 @@ app.post('/home/create_goal', (req, res) => {
 app.put('/home/comment', (req, res) => {
     var comment = req.params.comment;
     var id = req.params.id; 
+    var now = Date(Date.now()); 
+    var date = `${now.getMonth()} ${now.getDay()}, ${now.getFullYear()}`;
     db.db_goals_update({id: id}, {$push: {
         comments: comment
-    }});
+    },
+        $set: {
+            date: date
+        }
+    });
 });
 
 //add a like to a goal, req contains goalid
 app.put('/home/like', (req, res) => {
     var id = req.params.id; 
+    var now = Date(Date.now()); 
+    var date = `${now.getMonth()} ${now.getDay()}, ${now.getFullYear()}`;
     db.db_goals_update({id: id}, {$inc: {
         likes : 1
-    }}); 
+    },
+        $set: {
+            date : date 
+        }
+    }); 
 });
 
 //delete a goal
