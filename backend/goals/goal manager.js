@@ -10,7 +10,7 @@ app.get('/home/:userid', (req, res) => {
     var userid = req.params.userid; 
     var list = feed.getFeed(userid); 
     for(var i = 0; i < list.length; i++) {
-        res.json(list[i]); 
+        res.send(list[i]); 
     }
 });
 
@@ -39,8 +39,8 @@ app.post('/home/create_goal', (req, res) => {
         comments: comments, 
         likes: likes
     }
-    db.db_goal_insert(JSON.stringify(goal)); 
-    res.send(JSON.stringify(goal)); 
+    db.db_goal_insert(goal); 
+    res.send("goal inserted"); 
 });
 
 //post an update to a goal. req contains goalid and comment
