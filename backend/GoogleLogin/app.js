@@ -54,28 +54,18 @@ app.use(cookieSession({
       //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
   });
   const payload = ticket.getPayload();
-  const aud=payload['aud']
-  const iss=payload['iss']
-  const exp=payload['exp']
-  if(aud==ClientID && (iss=='https://accounts.google.com'|| iss=='accounts.google.com') && exp==0){
-    const userid = payload['sub'];
-    const email=payload['email']
-    const name=payload['name']
+  const userid = payload['sub'];
+  const email=payload['email']
+  const name=payload['name']
   createUser(userid,name,email)
-  }
- else {
-   return console.error
- }
+  
+
   // If request specified a G Suite domain:
   // const domain = payload['hd'];
 }
 verify().catch(console.error);
 
-app.get('./login',verify,(req,res)=>{
- token =req.header['idToken']
-  
-  res.send(`Welcome Mr.${User[0].name}`)
-})
+
 
 //cookieSession.
 //Routes

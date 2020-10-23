@@ -1,7 +1,8 @@
 var db = require("../database/db");
 var express = require("express"); 
-var feed = require("./feed manager")
-
+var feed = require("./feed manager");
+const { verify } = require("crypto");
+require('../GoogleLogin/app')
 var app = express();
 app.use(express.json()); 
 
@@ -13,7 +14,15 @@ app.get('/home/:userid', (req, res) => {
         res.send(list[i]); 
     }
 });
-
+app.get('./login',(req,res)=>{
+    token =req.header['idToken']
+    try {
+        verify();
+    } catch (error) {
+        res.send(error);
+    }
+     res.send(`successfully created user in database`)
+   })
 // post a new goal. req is formatted like a goal. 
 app.post('/home/create_goal', (req, res) => {
     var id = req.body.id; 
