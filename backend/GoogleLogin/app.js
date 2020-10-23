@@ -6,8 +6,12 @@ const passport = require('passport')
 const cookieSession = require('cookie-session')
 const {OAuth2Client} = require('google-auth-library');
 ClientID="270283078640-b1n995h94o3jm1oevmqo4slthg6orhbu.apps.googleusercontent.com"
-const client = new OAuth2Client(ClientID);
+const name=""
+const userid=""
+const email=""
 const token=""
+const client = new OAuth2Client(ClientID);
+
 require('./passportsetup')
 const app=express()
 const db=require('../database/db')
@@ -54,9 +58,9 @@ app.use(cookieSession({
       //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
   });
   const payload = ticket.getPayload();
-  const userid = payload['sub'];
-  const email=payload['email']
-  const name=payload['name']
+   userid = payload['sub'];
+   email=payload['email']
+   name=payload['name']
   createUser(userid,name,email)
   
 
