@@ -1,7 +1,8 @@
 var db = require("../database/db");
 var express = require("express"); 
-var feed = require("./feed manager")
-
+var feed = require("./feed manager");
+const { verify } = require("crypto");
+require('../GoogleLogin/app')
 var app = express();
 app.use(express.json()); 
 
