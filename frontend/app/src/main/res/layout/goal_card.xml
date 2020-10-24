@@ -3,12 +3,13 @@
 <!--Note: there is no need to extract String resources-->
 <!--The text is just for show and will be deleted in the future-->
 <!--as they are unnecessary-->
-<com.google.android.material.card.MaterialCardView xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,21 +51,21 @@
             android:id="@+id/text_view_goal_card_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:text="Do 100 push-ups"
-            android:gravity="center"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="16dp"/>
+            android:gravity="center"
+            android:text="Do 100 push-ups"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
         <TextView
             android:id="@+id/text_view_goal_card_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:layout_margin="16dp"
             android:text="
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi bibendum neque id luctus laoreet. Aenean convallis mattis ullamcorper. Maecenas in ex odio. Integer quis malesuada augue. Praesent eu dignissim ipsum. Vivamus non dui vehicula eros dictum aliquam. Phasellus dolor turpis, posuere at feugiat ut, tincidunt id lacus. Donec sed diam."/>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi bibendum neque id luctus laoreet. Aenean convallis mattis ullamcorper. Maecenas in ex odio. Integer quis malesuada augue. Praesent eu dignissim ipsum. Vivamus non dui vehicula eros dictum aliquam. Phasellus dolor turpis, posuere at feugiat ut, tincidunt id lacus. Donec sed diam."
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -72,11 +73,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi bibendum neque id
 
             <Button
                 android:id="@+id/button_goal_card_like"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:icon="@drawable/ic_like"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:text="Like"
+                app:icon="@drawable/ic_like"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/button_goal_card_comment"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -99,11 +100,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi bibendum neque id
 
             <Button
                 android:id="@+id/button_goal_card_favorite"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:icon="@drawable/ic_favorite"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:text="Favorite"
+                app:icon="@drawable/ic_favorite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
