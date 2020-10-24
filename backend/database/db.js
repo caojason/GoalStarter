@@ -1,13 +1,13 @@
 
 const MongoClient = require("mongodb").MongoClient;
-const uri = "mongodb+srv://EricAdmin:Lrk369-)@cluster0.tlb6a.mongodb.net/goalstarterdb?retryWrites=true&w=majority"
+//const uri = "mongodb+srv://EricAdmin:Lrk369-)@cluster0.tlb6a.mongodb.net/goalstarterdb?retryWrites=true&w=majority"
 
 var db; 
 
 module.exports = {
     /*Initialize the database of the application. Creates two collections for user and goal info */
     db_init : function () {
-        MongoClient.connect(uri, {useNewUrlParser: true}, function(err, client) {
+        MongoClient.connect("mongodb://localhost:27017", {useNewUrlParser: true}, function(err, client) {
             if(err) throw err; 
             console.log("GoalStarter Database created\n");
             //create a database
