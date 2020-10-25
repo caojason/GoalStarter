@@ -125,9 +125,9 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
                             // Display the first 500 characters of the response string.
-                            if (idToken.equals(response)) {
+                            //if (idToken.equals(response)) {
                                 updateUI(account);
-                            }
+                            //}
                         }
             }, new Response.ErrorListener() {
                 @Override
