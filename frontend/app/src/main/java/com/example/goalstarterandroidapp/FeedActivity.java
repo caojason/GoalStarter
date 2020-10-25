@@ -25,6 +25,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.goalstarterandroidapp.databinding.ActivityFeedBinding;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -44,6 +45,7 @@ public class FeedActivity extends AppCompatActivity {
     private GoalCardRecycleViewAdapter mAdapter;
     private String mFeedUrl = "http://23.99.229.212:3000/home/";
     private RequestQueue mQueue;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class FeedActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
         // firebase test
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
@@ -171,9 +174,20 @@ public class FeedActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_item_log_out:
+
+                mGoogleSignInClient.signOut()
+                        .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Intent loginIntent = new Intent(FeedActivity.this, MainActivity.class);
+                                startActivity(loginIntent);
+                            }
+                        });
+
                 return true;
 
             default:
+                System.out.println("ERROR LOGGING OUT");
                 return super.onOptionsItemSelected(item);
         }
     }
