@@ -76,13 +76,14 @@ app.get("/", function (req, res) {
   res.send("Welcome");
 });
 
-app.get("/login", function (req, res) {
-  res.send("Welcome login");
-});
+// app.get("/login", function (req, res) {
+//   res.send("Welcome login");
+// });
 
 
  app.post('/login',(req,res)=>{
    token =req.body.idToken
+   console.log(req.body.idToken)
   
        verify().catch((error)=>{
          if(error){
