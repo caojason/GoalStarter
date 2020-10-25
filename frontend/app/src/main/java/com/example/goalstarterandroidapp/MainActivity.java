@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             String idToken = account.getIdToken();
 
             RequestQueue queue = Volley.newRequestQueue(this);
-            String url = "http://23.99.229.212/login";
+            String url = "http://23.99.229.212:3000/login";
             StringRequest postRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -124,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     // error
                     Log.d("Error.Response", error.getMessage());
-                    System.out.println("ERRORRRRR in error response");
                 }
 
             }){
