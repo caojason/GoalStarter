@@ -28,13 +28,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-//import okhttp3.Request;
-import okhttp3.RequestBody;
-//import okhttp3.Response;
-
 
 public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
