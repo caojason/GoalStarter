@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.goalstarterandroidapp.databinding.GoalCardBinding;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,9 +20,9 @@ import java.util.ArrayList;
 public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRecycleViewAdapter.GoalCardHolder> {
     private static final String LOGTAG = "GOAL CARD RECYCLER VIEW";
     private Context mContext;
-    private ArrayList<JSONObject> mData;
+    private JSONArray mData;
 
-    GoalCardRecycleViewAdapter(Context context, ArrayList<JSONObject> data){
+    GoalCardRecycleViewAdapter(Context context, JSONArray data){
         this.mContext = context;
         this.mData = data;
     }
@@ -34,12 +35,16 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
 
     @Override
     public void onBindViewHolder(@NonNull GoalCardHolder holder, int position) {
-        holder.bind(mData.get(position));
+        try {
+            holder.bind((JSONObject) mData.get(position));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return mData.length();
     }
 
     class GoalCardHolder extends RecyclerView.ViewHolder {
@@ -60,6 +65,7 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
             catch (JSONException e){
                 Log.d(LOGTAG, "unable to retrieve required data from json object");
             }
+
         }
     }
 }
