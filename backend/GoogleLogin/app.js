@@ -5,7 +5,7 @@ const cors=require('cors')
 const passport = require('passport')
 const cookieSession = require('cookie-session')
 const {OAuth2Client} = require('google-auth-library');
-ClientID="534895538157-17o22r3tq7fn6g6pnhoe0rpl4qskq5ng.apps.googleusercontent.com"
+ClientID="270283078640-b1n995h94o3jm1oevmqo4slthg6orhbu.apps.googleusercontent.com"
 var name=""
 var userid=""
 var email=""
@@ -72,10 +72,16 @@ app.use(cookieSession({
   // const domain = payload['hd'];
 }
 
+app.get("/", function (req, res) {
+  res.send("Welcome");
+});
+
+app.get("/login", function (req, res) {
+  res.send("Welcome login");
+});
 
 
-
- app.get('/login',(req,res)=>{
+ app.post('/login',(req,res)=>{
    token =req.body.idToken
   
        verify().catch((error)=>{
