@@ -1,14 +1,25 @@
 var db = require("../database/db");
 var express = require("express"); 
-var feed = require("./feed manager");
-const { verify,userid,name,token} = require("crypto");
+//var feed = require("./feed manager");
+//const { verify,userid,name,token} = require("crypto");
 
 
-require('../GoogleLogin/app')
+//require('../GoogleLogin/app')
 var app = express();
 app.use(express.json()); 
 
 db.db_init(); 
+
+var user = {
+    id: "user1", 
+    username: "first user", 
+    email: "liurike2000@hotmail.com", 
+    friendlist: [], 
+    posts: [],
+    likes: []
+}
+
+db.db_user_insert(user); 
 
 /*Hardcoded List of 5 goals */
 const list = [
@@ -57,16 +68,17 @@ app.get('/home/:userid', (req, res) => {
     //var list = feed.getFeed(userid);
     res.send(list); 
 });
-app.get('./login',(req,res)=>{
-    token =req.header['idToken']
-    try {
-        verify();
-        res.send(`successfully inserted user with id:${userid} and name:${name} in database`)
-    } catch (error) {
-        res.send(error);
-    }
+
+// app.get('./login',(req,res)=>{
+//     token =req.header['idToken']
+//     try {
+//         verify();
+//         res.send(`successfully inserted user with id:${userid} and name:${name} in database`)
+//     } catch (error) {
+//         res.send(error);
+//     }
      
-   })
+//    })
 
 
 /*require title, author, content, milestone, schedule, tag as part of the JSON http request. userid param */
@@ -132,6 +144,7 @@ app.put('/home/comment/:userid', (req, res) => {
             comments: id
         }
     }); 
+    res.send("comment inserted"); 
 });
 
 //require goal id in body and userid in params
@@ -153,6 +166,7 @@ app.put('/home/like/:userid', (req, res) => {
             likes: id 
         }
     });
+    res.send("like recorded");  
 });
 
 //delete a goal. mainly for debugging purposes
