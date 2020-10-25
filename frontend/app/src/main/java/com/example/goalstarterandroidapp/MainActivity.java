@@ -113,13 +113,18 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     Log.d("Response", response);
-                    //updateUI(account);
+                    if (idToken.equals(response)) {
+                        updateUI(account);
+                    } else {
+                        System.out.println("ERRORRRRR");
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     // error
                     Log.d("Error.Response", error.getMessage());
+                    System.out.println("ERRORRRRR in error response");
                 }
 
             }){
