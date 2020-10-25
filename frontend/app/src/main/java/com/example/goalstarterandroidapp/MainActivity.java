@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
     private SignInButton signInButton;
+    private boolean verfied = false;
 
     //private final OkHttpClient client = new OkHttpClient();
 
@@ -117,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                                updateUI(account);
+                                verfied = true;
+                                updateUI(account, verfied);
                         }
             }, new Response.ErrorListener() {
                 @Override
@@ -141,14 +143,15 @@ public class MainActivity extends AppCompatActivity {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null);
+            updateUI(null, false);
         }
     }
 
-    private void updateUI(@Nullable GoogleSignInAccount account) {
-        if (account != null) {
+    private void updateUI(@Nullable GoogleSignInAccount account, boolean verified) {
+        if (account != null && verified) {
             Intent feedIntent = new Intent(MainActivity.this, FeedActivity.class);
             startActivity(feedIntent);
+            finish();
         }
 //        else {
 //            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
