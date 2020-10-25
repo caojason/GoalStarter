@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.goalstarterandroidapp.databinding.ActivityFeedBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
@@ -50,6 +51,8 @@ public class FeedActivity extends AppCompatActivity {
         mBinding = ActivityFeedBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
+        setSupportActionBar(mBinding.toolbarFeed);
+
         mBinding.fabFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,24 +62,13 @@ public class FeedActivity extends AppCompatActivity {
         });
 
         // firebase test
-//        FirebaseMessaging.getInstance().getToken()
-//                .addOnCompleteListener(new OnCompleteListener<String>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<String> task) {
-//                        if (!task.isSuccessful()) {
-//                            Log.w(LOGTAG, "Fetching FCM registration token failed", task.getException());
-//                            return;
-//                        }
-//
-//                        // Get new FCM registration token
-//                        String token = task.getResult();
-//
-//                        // Log and toast
-//                        String msg = getString(R.string.msg_token_fmt, token);
-//                        Log.d(LOGTAG, msg);
-//                        Toast.makeText(FeedActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
+            String newToken = instanceIdResult.getToken();
+            Log.e("newToken", newToken);
+            this.getPreferences(Context.MODE_PRIVATE).edit().putString("fb", newToken).apply();
+        });
+
+        Log.d("newToken", this.getPreferences(Context.MODE_PRIVATE).getString("fb", "empty :("));
 
         mQueue = Volley.newRequestQueue(this);
         mQueue.start();
@@ -179,8 +171,6 @@ public class FeedActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_item_log_out:
-                // Jason
-                // add your implementation here
                 return true;
 
             default:

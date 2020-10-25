@@ -16,9 +16,9 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 app:title="Goal Starter"
+                android:id="@+id/toolbar_feed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:menu="@menu/feed_menu"
                 style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
 
         </com.google.android.material.appbar.AppBarLayout>
