@@ -121,28 +121,28 @@ public class MainActivity extends AppCompatActivity {
             RequestQueue queue = Volley.newRequestQueue(this);
             String url ="http://10.0.2.2:3000/login";
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             // Display the first 500 characters of the response string.
-                            System.out.println("RESPONSE: " + response);
-                            updateUI(account);
+                            if (idToken.equals(response)) {
+                                updateUI(account);
+                            }
                         }
-                    }, new Response.ErrorListener() {
+            }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     System.out.println(error.getMessage());
                 }
-
-                //@Override
-                protected Map<String, String> getParams()
+            }){
+                @Override
+                public Map<String, String> getParams()
                 {
                     Map<String, String>  params = new HashMap<String, String>();
                     params.put("idToken", idToken);
                     return params;
                 }
-            });
+            };
 
             queue.add(stringRequest);
 

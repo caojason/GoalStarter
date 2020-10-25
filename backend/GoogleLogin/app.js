@@ -83,7 +83,6 @@ app.get("/", function (req, res) {
 
  app.post('/login',(req,res)=>{
    token =req.body.idToken
-   console.log(req.body.idToken)
   
        verify().catch((error)=>{
          if(error){
