@@ -24,7 +24,6 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,9 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
     private SignInButton signInButton;
-    private boolean verfied = false;
-
-    //private final OkHttpClient client = new OkHttpClient();
+    private boolean verified = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +70,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        updateUI(account);
 
         //check if the user has already signed in to your app using Google, on this device or another device
         mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
@@ -118,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                                verfied = true;
-                                updateUI(account, verfied);
+                                verified = true;
+                                updateUI(account, verified);
                         }
             }, new Response.ErrorListener() {
                 @Override
@@ -153,24 +145,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(feedIntent);
             finish();
         }
-//        else {
-//            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-//        }
+
     }
-
-//    private void runPost(String idToken) throws IOException {
-//        String postBody = idToken;
-//
-//        Request request = new Request.Builder()
-//                .url("http://localhost:3000/login")
-//                .post(RequestBody.create(MediaType.parse("text/x-markdown; charset=utf-8"), postBody))
-//                .build();
-//
-//        try (Response response = client.newCall(request).execute()) {
-//            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-//
-//            System.out.println(response.body().string());
-//        }
-//    }
-
+    
 }
