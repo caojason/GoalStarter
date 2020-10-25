@@ -1,27 +1,18 @@
-var db = require("../database/db");
+const MongoClient = require("mongodb").MongoClient;
 var express = require("express"); 
-//var feed = require("./feed manager");
-//const { verify,userid,name,token} = require("crypto");
 
-
-//require('../GoogleLogin/app')
 var app = express();
 app.use(express.json()); 
 
-db.db_init(); 
+const user = {
+    "id": 123, 
+    "username": "first user", 
+    "email": "liurike2000@hotmail.com", 
+    "friendlist": [], 
+    "posts": [],
+    "likes": []
+};
 
-var user = {
-    id: "user1", 
-    username: "first user", 
-    email: "liurike2000@hotmail.com", 
-    friendlist: [], 
-    posts: [],
-    likes: []
-}
-
-db.db_user_insert(user); 
-
-/*Hardcoded List of 5 goals */
 const list = [
     {id: "test1",
     title: "I want to pass CPEN 331", 
@@ -56,32 +47,45 @@ const list = [
     comments: ["I voted for you", "What qualifies you for this position?"], 
     likes: 100
     }
-]
+];
 
 const months = ["January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December"
 ];
 
-//userid is the id of the author.
-app.get('/home/:userid', (req, res) => {
+
+//connect mongoclient 
+MongoClient.connect("mongodb://localhost:27017", {useNewUrlParser: true}, function(err, client) {
+    if(err) throw err; 
+    console.log("GoalStarter Database created\n");
+    //create a database
+    db = client.db("dbtest"); 
+
+    //create a collectiion for storing goals
+    db.createCollection("goals", function(err, res) {
+        if(err) throw err; 
+        console.log("Goal Collection Created\n"); 
+    });
+        //create a collection for storing users. 
+    db.createCollection("users", function(err, res) {
+        if(err) throw err; 
+        console.log("User Collection Created\n"); 
+    });
+
+    db.collection("users").insertOne(user);
+
+});  
+
+app.get('/', (req, res) => {
+    res.send("Hello World");
+});
+
+app.get('/home', (req, res) => {
     var userid = req.params.userid; 
     //var list = feed.getFeed(userid);
     res.send(list); 
 });
 
-// app.get('./login',(req,res)=>{
-//     token =req.header['idToken']
-//     try {
-//         verify();
-//         res.send(`successfully inserted user with id:${userid} and name:${name} in database`)
-//     } catch (error) {
-//         res.send(error);
-//     }
-     
-//    })
-
-
-/*require title, author, content, milestone, schedule, tag as part of the JSON http request. userid param */
 app.post('/home/create_goal/:userid', (req, res) => {
     //generate date string 
     var now = new Date(Date.now()); 
@@ -89,6 +93,7 @@ app.post('/home/create_goal/:userid', (req, res) => {
     console.log(req); 
     //temporary postid is a concat of userid, date posted, and title of post. 
     var id = `${req.params.userid}${req.body.title}${date_string}`;
+    var userid = req.params.userid; 
 
     //fill in goal fields.
     var title = req.body.title; 
@@ -112,8 +117,8 @@ app.post('/home/create_goal/:userid', (req, res) => {
         comments: comments, 
         likes: likes
     }
-    db.db_goal_insert(goal); 
-    db.db_user_update({id: userid}, {
+    db.collection("goals").insertOne(goal); 
+    db.collection("users").updateOne({[id]: userid}, {
         $push: {
             posts: id
         }
@@ -122,7 +127,9 @@ app.post('/home/create_goal/:userid', (req, res) => {
     res.send("goal inserted"); 
 });
 
-//require comment, goal id, and author name as part of the http request. userid in param
+const port = process.env.PORT || 3000; 
+app.listen(port, () => console.log(`Hello, Listening on port ${port}`));
+
 app.put('/home/comment/:userid', (req, res) => {
 
     var comment = `${req.body.author} : ${req.body.comment}`;
@@ -131,7 +138,7 @@ app.put('/home/comment/:userid', (req, res) => {
     var now = new Date(Date.now()); 
     var date = `${now.getMonth()} ${now.getDay()}, ${now.getFullYear()}`;
 
-    db.db_goals_update({id: id}, {$push: {
+    db.collection("goals").updateOne({[id]: id}, {$push: {
         comments: comment
     },
         $set: {
@@ -139,41 +146,34 @@ app.put('/home/comment/:userid', (req, res) => {
         }
     });
 
-    db.db_user_update({id: userid}, {
+    db.collection("users").updateOne({id: userid}, {
         $push: {
             comments: id
         }
-    }); 
+    });
+
     res.send("comment inserted"); 
 });
 
-//require goal id in body and userid in params
 app.put('/home/like/:userid', (req, res) => {
     var id = req.body.id; 
     var userid = req.params.userid; 
     var now = new Date(Date.now()); 
     var date = `${now.getMonth()} ${now.getDay()}, ${now.getFullYear()}`;
-    db.db_goals_update({id: id}, {$inc: {
+
+    db.collection("goals").updateOne({[id]: id}, {$inc: {
         likes : 1
     },
         $set: {
             date : date 
         }
-    }); 
-
-    db.db_user_update({id: userid}, {
+    });
+    
+    db.collection("users").updateOne({id: userid}, {
         $push: {
             likes: id 
         }
     });
+
     res.send("like recorded");  
 });
-
-//delete a goal. mainly for debugging purposes
-app.delete('/home/:goalid', (req, res) => {
-    var id = req.params.id; 
-    db.db_goal_delete({id : id}); 
-});
-
-const port = process.env.PORT || 3000; 
-app.listen(port, () => console.log(`Listening on port ${port}`));
