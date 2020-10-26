@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             String idToken = account.getIdToken();
 
             RequestQueue queue = Volley.newRequestQueue(this);
-            String url ="http://10.0.2.2:3000/login";
+            String url ="http://23.99.229.212:3000/login";
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
