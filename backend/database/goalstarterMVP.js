@@ -1,8 +1,16 @@
 const MongoClient = require("mongodb").MongoClient;
 var express = require("express"); 
-
+var {verify,createUser,name,userid,email}=require('./app')
+const { admin } =require( './config')
+var {notification_options}=require('./push')
+const bodyParser=require('body-parser')
+const cors=require('cors')
 var app = express();
+
 app.use(express.json()); 
+app.use(cors())
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
 
 const user = {
     "id": 123, 
@@ -85,6 +93,53 @@ app.get('/home', (req, res) => {
     //var list = feed.getFeed(userid);
     res.send(list); 
 });
+
+
+app.post('/login',(req,res)=>{
+    var token =req.body.idToken
+     console.log(token)
+        verify(token).catch((error)=>{
+          if(error){
+            res.send({
+             error:error.message
+            })
+          }
+          else{
+        res.status(200).send({
+         method:'Get',
+         idToken:token,
+         userid:userid,
+         name:name,
+         email:email
+        
+        })
+       var user=createUser(userid,name,email)
+        if(!db.collection("users").find(user.id)){
+            db.collection("users").insert(user);
+          }
+       }
+        })
+       
+        
+    
+   })
+
+   app.post('/firebase/notification', (req, res)=>{
+    const  registrationToken = req.body.registrationToken
+    const message = req.body.message
+    const options =  notification_options
+    
+      admin.messaging().sendToDevice(registrationToken, message, options)
+      .then( response => {
+
+       res.status(200).send("Notification sent successfully")
+       
+      })
+      .catch( error => {
+          console.log(error);
+      });
+
+})
 
 app.post('/home/create_goal/:userid', (req, res) => {
     //generate date string 
