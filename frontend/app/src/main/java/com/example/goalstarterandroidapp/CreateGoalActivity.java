@@ -75,7 +75,7 @@ public class CreateGoalActivity extends AppCompatActivity {
             postData.put("content", mBinding.editTextGoalContent.getText().toString());
             postData.put("milestones", "N/A");
             postData.put("schedule", "N/A");
-            postData.put("tag", "N/A");
+            postData.put("tag", "employment");
             requestBody = postData.toString();
 
             StringRequest postRequest = new StringRequest(Request.Method.POST, URL,
