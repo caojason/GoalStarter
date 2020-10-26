@@ -9,9 +9,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -116,7 +122,25 @@ public class MainActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    System.out.println(error.getMessage());
+                    if (error != null) {
+                        System.out.println("Error: " + error.getMessage());
+                        System.out.println("Network response: " + error.networkResponse);
+                        if (error instanceof AuthFailureError) {
+                            System.out.println("Auth");
+                        } else if (error instanceof ServerError) {
+                            System.out.println("Server");
+                        } else if (error instanceof NetworkError) {
+                            System.out.println("Network");
+                        } else if (error instanceof ParseError) {
+                            System.out.println("Parse");
+                        } else if (error instanceof NoConnectionError) {
+                            System.out.println("NoConnection");
+                        } else if (error instanceof TimeoutError) {
+                            System.out.println("Timeout");
+                        }
+                    } else {
+                        System.out.println("Error is null");
+                    }
                 }
             }){
                 @Override
