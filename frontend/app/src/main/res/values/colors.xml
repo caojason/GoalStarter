@@ -15,4 +15,5 @@
     <color name="orange_dark">#b53d00</color>
     <color name="blue_light">#65c0ff</color>
     <color name="blue_dark">#0063bb</color>
+    <color name="grey">#F5F5F5</color>
 </resources>
