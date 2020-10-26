@@ -9,15 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -37,8 +31,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
-    private SignInButton signInButton;
-    private boolean verified = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,31 +108,13 @@ public class MainActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                                verified = true;
-                                updateUI(account, verified);
+                                System.out.println("Response: " + response);
+                                updateUI(account);
                         }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    if (error != null) {
-                        System.out.println("Error: " + error.getMessage());
-                        System.out.println("Network response: " + error.networkResponse);
-                        if (error instanceof AuthFailureError) {
-                            System.out.println("Auth");
-                        } else if (error instanceof ServerError) {
-                            System.out.println("Server");
-                        } else if (error instanceof NetworkError) {
-                            System.out.println("Network");
-                        } else if (error instanceof ParseError) {
-                            System.out.println("Parse");
-                        } else if (error instanceof NoConnectionError) {
-                            System.out.println("NoConnection");
-                        } else if (error instanceof TimeoutError) {
-                            System.out.println("Timeout");
-                        }
-                    } else {
-                        System.out.println("Error is null");
-                    }
+                    System.out.println("Error: " + error.getMessage());
                 }
             }){
                 @Override
@@ -158,13 +132,14 @@ public class MainActivity extends AppCompatActivity {
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
+
             Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null, false);
+            updateUI(null);
         }
     }
 
-    private void updateUI(@Nullable GoogleSignInAccount account, boolean verified) {
-        if (account != null && verified) {
+    private void updateUI(@Nullable GoogleSignInAccount account) {
+        if (account != null) {
             Intent feedIntent = new Intent(MainActivity.this, FeedActivity.class);
             startActivity(feedIntent);
             finish();
