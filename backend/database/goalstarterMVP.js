@@ -99,13 +99,13 @@ app.get('/home', (req, res) => {
 });
 
 let newUser={
-    id:"",
-    username:"",
-    email:"",
-    friendslist:[],
-    posts:[],
-    comments:[],
-    likes:[]
+    "id":"",
+    "username":"",
+    "email":"",
+    "friendslist":[],
+    "posts":[],
+    "comments":[],
+    "likes":[]
   }
 
 async function verify(token) {
@@ -120,40 +120,55 @@ async function verify(token) {
     newUser.id = ticket.getUserId()
      newUser.email=payload['email']
      newUser.username=payload['name']
-  
+     
     // If request specified a G Suite domain:
     // const domain = payload['hd'];
   }
 
-app.post('/login',(req,res)=>{
+app.post('/login',async (req,res)=>{
     var token =req.body.idToken
      console.log(token)
-      verify(token).catch((error)=>{
+    
+        try {
+            await verify(token)
+            console.log(newUser.id)
+            console.log(newUser.email)
+            console.log(newUser.username)
+            res.status(200).send({
+                method:'Post',
+                idToken:token,
+                userid:newUser.id,
+                name:newUser.username,
+                email:newUser.email
+               
+               })
+               
+        } catch (error) {
             res.status(401).send({
-             error:error.message
-            })
-        }) 
+                error:error.message
+               })
+        }
         
-        console.log(newUser.id)
-        console.log(newUser.email)
-        console.log(newUser.username)
-        res.status(200).send({
-            method:'Get',
-            idToken:token,
-            userid:newUser.id,
-            name:newUser.username,
-            email:newUser.email
-           
+      
+     try{
+        const result=await db.collection("users").findOne({"id":newUser.id});
+       if(result==null){ 
+      db.collection("users").insertOne(newUser);
+       }
+    }
+    catch(err){
+        res.status(404).send({
+            err:err.message,
+            message:'User did not insert successfully'
+        })
+    }
+    
            })
-         
-           
-    console.log("new user inserted")
-     db.collection("users").insertOne(newUser);
-           
+        
         
         
     
-   })
+  
 
    app.post('/firebase/notification', (req, res)=>{
     const  registrationToken = req.body.registrationToken
@@ -192,21 +207,21 @@ app.post('/home/create_goal/:userid', (req, res) => {
     var likes = 0; 
 
     var goal = {
-        id: id, 
-        title: title, 
-        author: author, 
-        date: date_string, 
-        content: content, 
-        milestones: milestones, 
-        schedule: schedule,
-        tag: tag, 
-        comments: comments, 
-        likes: likes
+        "id": id, 
+        "title": title, 
+        "author": author, 
+        "date": date_string, 
+        "content": content, 
+        "milestones": milestones, 
+        "schedule": schedule,
+        "tag": tag, 
+        "comments": comments, 
+        "likes": likes
     }
     db.collection("goals").insertOne(goal); 
-    db.collection("users").updateOne({[id]: userid}, {
+    db.collection("users").updateOne({"id": userid}, {
         $push: {
-            posts: id
+            "posts": id
         }
     });
 
@@ -224,17 +239,17 @@ app.put('/home/comment/:userid', (req, res) => {
     var now = new Date(Date.now()); 
     var date = `${now.getMonth()} ${now.getDay()}, ${now.getFullYear()}`;
 
-    db.collection("goals").updateOne({[id]: id}, {$push: {
-        comments: comment
+    db.collection("goals").updateOne({"id": id}, {$push: {
+        "comments": comment
     },
         $set: {
-            date: date
+            "date": date
         }
     });
 
-    db.collection("users").updateOne({id: userid}, {
+    db.collection("users").updateOne({"id": userid}, {
         $push: {
-            comments: id
+            "comments": id
         }
     });
 
@@ -247,17 +262,17 @@ app.put('/home/like/:userid', (req, res) => {
     var now = new Date(Date.now()); 
     var date = `${now.getMonth()} ${now.getDay()}, ${now.getFullYear()}`;
 
-    db.collection("goals").updateOne({[id]: id}, {$inc: {
-        likes : 1
+    db.collection("goals").updateOne({"id": id}, {$inc: {
+        "likes" : 1
     },
         $set: {
-            date : date 
+            "date" : date 
         }
     });
     
-    db.collection("users").updateOne({id: userid}, {
+    db.collection("users").updateOne({"id": userid}, {
         $push: {
-            likes: id 
+            "likes": id 
         }
     });
 
