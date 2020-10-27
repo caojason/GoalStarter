@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange"
+    android:background="@color/grey"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -15,11 +15,11 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
-                app:title="Goal Starter"
                 android:id="@+id/toolbar_feed"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+                app:title="GoalStarter" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
