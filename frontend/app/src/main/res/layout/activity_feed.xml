@@ -15,12 +15,12 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
-                app:title="Goal Starter"
                 android:id="@+id/toolbar_feed"
+                style="@style/Widget.MaterialComponents.Toolbar.Surface"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="0dp"
-                style="@style/Widget.MaterialComponents.Toolbar.Surface"/>
+                app:title="GoalStarter" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
