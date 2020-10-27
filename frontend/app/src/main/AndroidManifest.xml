@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoalStarterAndroidApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CreateGoalActivity"></activity>
+        <activity
+            android:name=".CreateGoalActivity"
+            android:parentActivityName=".FeedActivity"/>
         <activity android:name=".TestDestinationActivity" />
         <activity android:name=".FeedActivity">
             <intent-filter>

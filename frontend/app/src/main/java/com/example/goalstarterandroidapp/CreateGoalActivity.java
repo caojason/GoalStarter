@@ -41,6 +41,9 @@ public class CreateGoalActivity extends AppCompatActivity {
         mBinding = ActivityCreateGoalBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
+        setSupportActionBar(mBinding.toolbarCreateGoal);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mRequestQueue = Volley.newRequestQueue(this);
 
         mBinding.editTextGoalTitle.addTextChangedListener(new TextWatcher() {
