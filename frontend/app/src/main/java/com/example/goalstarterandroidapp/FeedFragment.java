@@ -58,7 +58,7 @@ public class FeedFragment extends Fragment {
 //        return fragment;
 //    }
 
-    private static final String LOGTAG  = "FEED FRAGMENT LOG TAG";
+    private static final String TAG = FeedFragment.class.getName();
     private RequestQueue mQueue;
 
     private RecyclerView mRecyclerView;
