@@ -108,8 +108,9 @@ public class MainActivity extends AppCompatActivity {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                                System.out.println("Response: " + response);
-                                updateUI(account);
+                            
+                            System.out.println("Response: " + response);
+                            updateUI(account);
                         }
             }, new Response.ErrorListener() {
                 @Override

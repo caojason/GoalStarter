@@ -71,14 +71,15 @@ public class CreateGoalActivity extends AppCompatActivity {
 
     public void createGoal(View view) {
         JSONObject postData = new JSONObject();
+        String[] milestones = {mBinding.editTextGoalMilestone1.getText().toString(), mBinding.editTextGoalMilestone2.getText().toString()};
         String requestBody;
         try {
             postData.put("title", mBinding.editTextGoalTitle.getText().toString());
             postData.put("author", "Eric Liu");
             postData.put("content", mBinding.editTextGoalContent.getText().toString());
-            postData.put("milestones", "N/A");
+            postData.put("milestones", milestones);
             postData.put("schedule", "N/A");
-            postData.put("tag", "employment");
+            postData.put("tag", mBinding.editTextGoalTag.getText().toString());
             requestBody = postData.toString();
 
             StringRequest postRequest = new StringRequest(Request.Method.POST, URL,
