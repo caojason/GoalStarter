@@ -3,6 +3,7 @@ package com.example.goalstarterandroidapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.goalstarterandroidapp.databinding.ActivityGoalDetailBinding;
 
@@ -10,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GoalDetailActivity extends AppCompatActivity {
+    private static final String TAG = GoalDetailActivity.class.getName();
     private ActivityGoalDetailBinding mBinding;
     private JSONObject mData;
 
@@ -31,7 +33,18 @@ public class GoalDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        mBinding.textViewTest.setText(mData.toString());
+        // bind goal card data
+        try{
+            mBinding.goalCard.textViewGoalCardUser.setText(mData.getString("author"));
+            mBinding.goalCard.textViewGoalCardCategory.setText(mData.getString("tag"));
+            mBinding.goalCard.textViewGoalCardGoal.setText(mData.getString("title"));
+            mBinding.goalCard.textViewGoalCardDetails.setText(mData.getString("content"));
+            Log.d(TAG, mData.toString());
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
