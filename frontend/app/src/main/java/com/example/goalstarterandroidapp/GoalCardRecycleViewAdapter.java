@@ -1,12 +1,15 @@
 package com.example.goalstarterandroidapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.goalstarterandroidapp.databinding.GoalCardBinding;
@@ -47,12 +50,13 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
         return mData.length();
     }
 
-    class GoalCardHolder extends RecyclerView.ViewHolder {
+    class GoalCardHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private GoalCardBinding mBinding;
 
         public GoalCardHolder(@NonNull View itemView) {
             super(itemView);
             mBinding = GoalCardBinding.bind(itemView);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(JSONObject data) {
@@ -64,6 +68,25 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
             }
             catch (JSONException e){
                 Log.d(LOGTAG, "unable to retrieve required data from json object");
+            }
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            try {
+                // get json object
+                int mPosition = getAdapterPosition();
+                JSONObject goal = (JSONObject) mData.get(mPosition);
+                // convert to string
+                String argGoal = goal.toString();
+                // start the goal detail activity
+                Intent intent = new Intent(mContext, GoalDetailActivity.class);
+                intent.putExtra("goal", argGoal);
+                mContext.startActivity(intent);
+            }
+            catch (JSONException e){
+                e.printStackTrace();
             }
 
         }

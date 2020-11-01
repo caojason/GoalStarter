@@ -19,8 +19,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 
@@ -31,9 +29,11 @@ public class HostActivity extends AppCompatActivity {
     private ActivityHostBinding mBinding;
     private RequestQueue mQueue;
     // Feed fragment data
-    private static final String mFeedUrl = "http://23.99.229.212:3000/home/";
+    private static final String FEEDURL = "http://23.99.229.212:3000/home/";
     private GoalCardRecycleViewAdapter mFeedAdapter;
     // My Goals fragment data
+    private static final String MYGOALSURL = "http://23.99.229.212:3000/home/view_goals/";
+    private GoalCardRecycleViewAdapter mMyGoalsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class HostActivity extends AppCompatActivity {
 
 
         if (mFeedAdapter == null){
-            JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, mFeedUrl, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, FEEDURL, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     mFeedAdapter = new GoalCardRecycleViewAdapter(mContext, response);
@@ -87,6 +87,35 @@ public class HostActivity extends AppCompatActivity {
         }
         else{
             feedFragment.attachAdapter(mFeedAdapter);
+        }
+    }
+
+    public void getMyGoalsAdapter(){
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        MyGoalsFragment myGoalsFragment = (MyGoalsFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+
+        String requestURL = MYGOALSURL + ""; // TODO: add user id
+
+        if (mFeedAdapter == null){
+            JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    mMyGoalsAdapter = new GoalCardRecycleViewAdapter(mContext, response);
+                    myGoalsFragment.attachAdapter(mFeedAdapter);
+                }
+
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d(TAG, "Did not get JSON array");
+                    error.printStackTrace();
+                }
+            });
+            // send request
+            mQueue.add(getFeed);
+        }
+        else{
+            myGoalsFragment.attachAdapter(mFeedAdapter);
         }
     }
 

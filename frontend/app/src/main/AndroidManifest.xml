@@ -12,6 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoalStarterAndroidApp"
         android:usesCleartextTraffic="true">
+        <activity android:name=".GoalDetailActivity"
+            android:parentActivityName=".HostActivity"/>
         <activity
             android:name=".HostActivity"
             android:label="@string/title_activity_host">
@@ -24,11 +26,8 @@
         <activity
             android:name=".CreateGoalActivity"
             android:parentActivityName=".FeedActivity" />
-        <activity android:name=".TestDestinationActivity" />
-        <activity android:name=".FeedActivity"></activity>
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".FeedActivity" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
