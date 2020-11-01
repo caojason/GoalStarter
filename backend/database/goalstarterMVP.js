@@ -4,7 +4,8 @@ var {AudienceClientID,client}=require('./app')
 const { admin } =require( './config')
 var {notification_options}=require('./push')
 const bodyParser=require('body-parser')
-const cors=require('cors')
+const cors=require('cors');
+const { test } = require("@jest/globals");
 var app = express();
 
 
