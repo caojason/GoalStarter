@@ -2,12 +2,14 @@ package com.example.goalstarterandroidapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -25,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -34,6 +37,7 @@ public class CreateGoalActivity extends AppCompatActivity {
     private ActivityCreateGoalBinding mBinding;
     private RequestQueue mRequestQueue;
     private static final String URL = "http://23.99.229.212:3000/home/create_goal/123";
+    private DatePickerDialog picker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,60 @@ public class CreateGoalActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mRequestQueue = Volley.newRequestQueue(this);
+
+        mBinding.milestone1Date.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                picker = new DatePickerDialog(CreateGoalActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                mBinding.milestone1Date.setText("Milestone 1 deadline:  " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                picker.show();
+            }
+        });
+
+        mBinding.milestone2Date.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                picker = new DatePickerDialog(CreateGoalActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                mBinding.milestone2Date.setText("Milestone 2 deadline:  " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                picker.show();
+            }
+        });
+
+        mBinding.milestone3Date.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                picker = new DatePickerDialog(CreateGoalActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                mBinding.milestone3Date.setText("Milestone 3 deadline:  " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                picker.show();
+            }
+        });
 
         mBinding.editTextGoalTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -67,11 +125,28 @@ public class CreateGoalActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
+
+//    public void onClick(View v) {
+//        final Calendar cldr = Calendar.getInstance();
+//        int day = cldr.get(Calendar.DAY_OF_MONTH);
+//        int month = cldr.get(Calendar.MONTH);
+//        int year = cldr.get(Calendar.YEAR);
+//        // date picker dialog
+//        picker = new DatePickerDialog(CreateGoalActivity.this,
+//                new DatePickerDialog.OnDateSetListener() {
+//                    @Override
+//                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                        mBinding.milestone1Date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+//                    }
+//                }, year, month, day);
+//        picker.show();
+//    }
 
     public void createGoal(View view) {
         JSONObject postData = new JSONObject();
-        String[] milestones = {mBinding.editTextGoalMilestone1.getText().toString(), mBinding.editTextGoalMilestone2.getText().toString()};
+        String[] milestones = {mBinding.editTextGoalMilestone1.getText().toString(), mBinding.editTextGoalMilestone2.getText().toString(), mBinding.editTextGoalMilestone3.getText().toString()};
         String requestBody;
         try {
             postData.put("title", mBinding.editTextGoalTitle.getText().toString());
