@@ -24,6 +24,9 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -102,15 +105,23 @@ public class MainActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
 
+
             RequestQueue queue = Volley.newRequestQueue(this);
             String url ="http://23.99.229.212:3000/login";
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            
-                            System.out.println("Response: " + response);
-                            updateUI(account);
+                            int userid = 0;
+                            try {
+                                JSONObject id = new JSONObject(response);
+                                userid = id.getInt("userid");
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println("USERID: " + userid);
+                            updateUI(account,userid);
                         }
             }, new Response.ErrorListener() {
                 @Override
@@ -135,13 +146,14 @@ public class MainActivity extends AppCompatActivity {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
 
             Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null);
+            updateUI(null, 0);
         }
     }
 
-    private void updateUI(@Nullable GoogleSignInAccount account) {
+    private void updateUI(@Nullable GoogleSignInAccount account, int userid) {
         if (account != null) {
             Intent feedIntent = new Intent(MainActivity.this, HostActivity.class);
+            feedIntent.putExtra("userid", userid);
             startActivity(feedIntent);
             finish();
         }
