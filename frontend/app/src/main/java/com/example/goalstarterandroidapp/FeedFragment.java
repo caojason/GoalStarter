@@ -91,6 +91,11 @@ public class FeedFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recycler_view_feed_fragment);
         // set layout manager for recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        Parcelable state = parentActivity.getFeedLayoutManager();
+        if(state != null){
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(state);
+        }
+
         // set recycler view adapter
         parentActivity.getFeedAdapter();
 
@@ -99,6 +104,12 @@ public class FeedFragment extends Fragment {
         mRecyclerView.addItemDecoration(bottomOffsetDecoration);
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        parentActivity.setFeedLayoutManager(mRecyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     public void attachAdapter(GoalCardRecycleViewAdapter adapter){
