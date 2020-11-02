@@ -50,6 +50,10 @@ public class MyGoalsFragment extends Fragment {
         // set recycler view adapter
 //        parentActivity.getFeedAdapter(); //TODO: uncomment this once the backend is set up and correct URL is added
 
+        // add spacing to the bottom of recycler view (80dp)
+        BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int)(80 * getResources().getDisplayMetrics().density));
+        mRecyclerView.addItemDecoration(bottomOffsetDecoration);
+
         return view;
     }
 
