@@ -3,26 +3,16 @@ package com.example.goalstarterandroidapp;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
 
 
 public class FeedFragment extends Fragment {
@@ -78,27 +68,38 @@ public class FeedFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        // floating action button
-        view.findViewById(R.id.fab_feed_fragment).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CreateGoalActivity.class);
-                startActivity(intent);
-            }
-        });
+//        // floating action button
+//        view.findViewById(R.id.fab_my_goal_fragment).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getContext(), CreateGoalActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         // recycler view
         mRecyclerView = view.findViewById(R.id.recycler_view_feed_fragment);
         // set layout manager for recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        Parcelable state = parentActivity.getFeedLayoutManager();
+        if(state != null){
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(state);
+        }
+
         // set recycler view adapter
         parentActivity.getFeedAdapter();
 
-        // add padding to the bottom of recycler view
-        BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int)(80 * getResources().getDisplayMetrics().density));
+        // add spacing to the bottom of recycler view (16dp)
+        BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int)(16 * getResources().getDisplayMetrics().density));
         mRecyclerView.addItemDecoration(bottomOffsetDecoration);
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        parentActivity.setFeedLayoutManager(mRecyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     public void attachAdapter(GoalCardRecycleViewAdapter adapter){

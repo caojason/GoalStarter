@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(@Nullable GoogleSignInAccount account) {
         if (account != null) {
-            Intent feedIntent = new Intent(MainActivity.this, FeedActivity.class);
+            Intent feedIntent = new Intent(MainActivity.this, HostActivity.class);
             startActivity(feedIntent);
             finish();
         }

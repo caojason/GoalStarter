@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_my_goals">
+    app:startDestination="@id/navigation_feed">
+
+    <fragment
+        android:id="@+id/navigation_feed"
+        android:name="com.example.goalstarterandroidapp.FeedFragment"
+        android:label="Feed"
+        tools:layout="@layout/fragment_feed" />
 
     <fragment
         android:id="@+id/navigation_my_goals"
@@ -12,20 +18,8 @@
         tools:layout="@layout/fragment_my_goals" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_profile"
         android:name="com.example.goalstarterandroidapp.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:label="Profile"
         tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.goalstarterandroidapp.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
-
-    <fragment
-        android:id="@+id/navigation_feed"
-        android:name="com.example.goalstarterandroidapp.FeedFragment"
-        android:label="Feed"
-        tools:layout="@layout/fragment_feed" />
 </navigation>
