@@ -151,6 +151,8 @@ public class CreateGoalActivity extends AppCompatActivity {
 
     }
 
+    // note from Shuyao: you can get the user id by calling: getIntent().getIntExtra("userid", -1)
+    // the above code should return the userid. if it fails to get it, it returns -1;
     public void createGoal(View view) {
         JSONObject postData = new JSONObject();
         String[] milestones = {mBinding.editTextGoalMilestone1.getText().toString(), mBinding.editTextGoalMilestone2.getText().toString(), mBinding.editTextGoalMilestone3.getText().toString(), "END GOAL"};

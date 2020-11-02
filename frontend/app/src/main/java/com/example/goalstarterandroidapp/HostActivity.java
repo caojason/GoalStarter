@@ -36,7 +36,6 @@ import org.json.JSONArray;
 public class HostActivity extends AppCompatActivity {
     private static final String TAG = HostActivity.class.getName();
     private Context mContext;
-
     private ActivityHostBinding mBinding;
     private RequestQueue mQueue;
     // Feed fragment data
@@ -128,9 +127,10 @@ public class HostActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         MyGoalsFragment myGoalsFragment = (MyGoalsFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
 
-        String requestURL = MYGOALSURL + ""; // TODO: add user id
+        int userid = getIntent().getIntExtra("userid", -1);
+        String requestURL = MYGOALSURL + Integer.toString(userid); // TODO: add user id
 
-        if (mFeedAdapter == null){
+        if (mMyGoalsAdapter == null){
             JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
@@ -149,7 +149,7 @@ public class HostActivity extends AppCompatActivity {
             mQueue.add(getFeed);
         }
         else{
-            myGoalsFragment.attachAdapter(mFeedAdapter);
+            myGoalsFragment.attachAdapter(mMyGoalsAdapter);
         }
     }
 

@@ -17,17 +17,19 @@
         <activity
             android:name=".HostActivity"
             android:label="@string/title_activity_host">
+
+        </activity>
+        <activity
+            android:name=".CreateGoalActivity"
+            android:parentActivityName=".FeedActivity" />
+        <activity android:name=".FeedActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CreateGoalActivity"
-            android:parentActivityName=".FeedActivity" />
-        <activity android:name=".FeedActivity" />
-        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

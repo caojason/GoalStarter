@@ -40,6 +40,9 @@ public class MyGoalsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CreateGoalActivity.class);
+                // get user id
+                int userid = parentActivity.getIntent().getIntExtra("userid", -1);
+                intent.putExtra("userid", userid);
                 startActivity(intent);
             }
         });
@@ -55,7 +58,7 @@ public class MyGoalsFragment extends Fragment {
         }
 
         // set recycler view adapter
-//        parentActivity.getFeedAdapter(); //TODO: uncomment this once the backend is set up and correct URL is added
+        parentActivity.getMyGoalsAdapter(); //TODO: uncomment this once the backend is set up and correct URL is added
 
         // add spacing to the bottom of recycler view (80dp)
         BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int)(80 * getResources().getDisplayMetrics().density));
