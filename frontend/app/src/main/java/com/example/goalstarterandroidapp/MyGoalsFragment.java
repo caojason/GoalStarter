@@ -2,6 +2,7 @@ package com.example.goalstarterandroidapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,12 @@ public class MyGoalsFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recycler_view_my_goals);
         // set layout manager for recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // attach previous state if it exists
+        Parcelable state = parentActivity.getMyGoalsLayoutManager();
+        if(state != null){
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(state);
+        }
+
         // set recycler view adapter
 //        parentActivity.getFeedAdapter(); //TODO: uncomment this once the backend is set up and correct URL is added
 
@@ -55,6 +62,12 @@ public class MyGoalsFragment extends Fragment {
         mRecyclerView.addItemDecoration(bottomOffsetDecoration);
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        parentActivity.setMyGoalsLayoutManager(mRecyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     public void attachAdapter(GoalCardRecycleViewAdapter adapter){

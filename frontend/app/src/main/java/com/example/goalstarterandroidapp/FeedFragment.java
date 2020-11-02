@@ -81,6 +81,7 @@ public class FeedFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.recycler_view_feed_fragment);
         // set layout manager for recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // attach previous state if it exists
         Parcelable state = parentActivity.getFeedLayoutManager();
         if(state != null){
             mRecyclerView.getLayoutManager().onRestoreInstanceState(state);

@@ -46,6 +46,8 @@ public class HostActivity extends AppCompatActivity {
     // My Goals fragment data
     private static final String MYGOALSURL = "http://23.99.229.212:3000/home/view_goals/";
     private GoalCardRecycleViewAdapter mMyGoalsAdapter;
+    private Parcelable mMyGoalsLayoutManager;
+    // Google sign in used for log out
     private GoogleSignInClient mGoogleSignInClient;
 
     @Override
@@ -121,6 +123,7 @@ public class HostActivity extends AppCompatActivity {
         mFeedLayoutManager = state;
     }
 
+
     public void getMyGoalsAdapter(){
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         MyGoalsFragment myGoalsFragment = (MyGoalsFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
@@ -148,6 +151,14 @@ public class HostActivity extends AppCompatActivity {
         else{
             myGoalsFragment.attachAdapter(mFeedAdapter);
         }
+    }
+
+    public Parcelable getMyGoalsLayoutManager(){
+        return mMyGoalsLayoutManager;
+    }
+
+    public void setMyGoalsLayoutManager(Parcelable state){
+        mMyGoalsLayoutManager = state;
     }
 
     @Override
