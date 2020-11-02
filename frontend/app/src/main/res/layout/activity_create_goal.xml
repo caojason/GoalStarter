@@ -126,6 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:gravity="top"
+                android:textColor="@color/black"
                 android:hint="Set Milestone 1 Deadline" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -152,6 +153,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:gravity="top"
+                android:textColor="@color/black"
                 android:hint="Set Milestone 2 Deadline" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -178,7 +180,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:gravity="top"
+                android:textColor="@color/black"
                 android:hint="Set Milestone 3 Deadline" />
+            <TextView
+                android:id="@+id/goal_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                android:gravity="top"
+                android:hint="Set Goal Deadline" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_create_goal"

@@ -38,6 +38,7 @@ public class CreateGoalActivity extends AppCompatActivity {
     private RequestQueue mRequestQueue;
     private static final String URL = "http://23.99.229.212:3000/home/create_goal/123";
     private DatePickerDialog picker;
+    private String[] date = new String[4];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class CreateGoalActivity extends AppCompatActivity {
                             }
                         }, year, month, day);
                 picker.show();
+                date[0] = createDate(day, month + 1, year);
             }
         });
 
@@ -83,6 +85,7 @@ public class CreateGoalActivity extends AppCompatActivity {
                             }
                         }, year, month, day);
                 picker.show();
+                date[1] = createDate(day, month + 1, year);
             }
         });
 
@@ -101,6 +104,26 @@ public class CreateGoalActivity extends AppCompatActivity {
                             }
                         }, year, month, day);
                 picker.show();
+                date[2] = createDate(day, month + 1, year);
+            }
+        });
+
+        mBinding.goalDate.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                picker = new DatePickerDialog(CreateGoalActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                mBinding.goalDate.setText("Goal deadline:  " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                picker.show();
+                date[3] = createDate(day, month + 1, year);
             }
         });
 
@@ -128,32 +151,19 @@ public class CreateGoalActivity extends AppCompatActivity {
 
     }
 
-//    public void onClick(View v) {
-//        final Calendar cldr = Calendar.getInstance();
-//        int day = cldr.get(Calendar.DAY_OF_MONTH);
-//        int month = cldr.get(Calendar.MONTH);
-//        int year = cldr.get(Calendar.YEAR);
-//        // date picker dialog
-//        picker = new DatePickerDialog(CreateGoalActivity.this,
-//                new DatePickerDialog.OnDateSetListener() {
-//                    @Override
-//                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-//                        mBinding.milestone1Date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-//                    }
-//                }, year, month, day);
-//        picker.show();
-//    }
-
     public void createGoal(View view) {
         JSONObject postData = new JSONObject();
-        String[] milestones = {mBinding.editTextGoalMilestone1.getText().toString(), mBinding.editTextGoalMilestone2.getText().toString(), mBinding.editTextGoalMilestone3.getText().toString()};
+        String[] milestones = {mBinding.editTextGoalMilestone1.getText().toString(), mBinding.editTextGoalMilestone2.getText().toString(), mBinding.editTextGoalMilestone3.getText().toString(), "END GOAL"};
+        String[] schedule = new String[4];
+        System.arraycopy(date, 0, schedule, 0, date.length);
+        date = new String[4];
         String requestBody;
         try {
             postData.put("title", mBinding.editTextGoalTitle.getText().toString());
             postData.put("author", "Eric Liu");
             postData.put("content", mBinding.editTextGoalContent.getText().toString());
             postData.put("milestones", milestones);
-            postData.put("schedule", "N/A");
+            postData.put("schedule", schedule);
             postData.put("tag", mBinding.editTextGoalTag.getText().toString());
             requestBody = postData.toString();
 
@@ -198,8 +208,52 @@ public class CreateGoalActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
+    public String createDate(int day, int month, int year) {
+        String monthWord;
+        switch (month) {
+            case 1:
+                monthWord = "January";
+                break;
+            case 2:
+                monthWord = "February";
+                break;
+            case 3:
+                monthWord = "March";
+                break;
+            case 4:
+                monthWord = "April";
+                break;
+            case 5:
+                monthWord = "May";
+                break;
+            case 6:
+                monthWord = "June";
+                break;
+            case 7:
+                monthWord = "July";
+                break;
+            case 8:
+                monthWord = "August";
+                break;
+            case 9:
+                monthWord = "September";
+                break;
+            case 10:
+                monthWord = "October";
+                break;
+            case 11:
+                monthWord = "November";
+                break;
+            case 12:
+                monthWord = "December";
+                break;
+            default:
+                monthWord = "ERROR";
+                break;
+        }
 
-
+        return monthWord + " " + day + ", " + year;
     }
 }
