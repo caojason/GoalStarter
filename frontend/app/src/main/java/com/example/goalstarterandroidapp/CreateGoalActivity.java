@@ -22,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.goalstarterandroidapp.databinding.ActivityCreateGoalBinding;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -160,15 +161,15 @@ public class CreateGoalActivity extends AppCompatActivity {
         System.arraycopy(date, 0, schedule, 0, date.length);
         date = new String[4];
         String requestBody;
+
         try {
             postData.put("title", mBinding.editTextGoalTitle.getText().toString());
-            postData.put("author", "Eric Liu");
+            postData.put("author",  getIntent().getIntExtra("userid", -1));
             postData.put("content", mBinding.editTextGoalContent.getText().toString());
-            postData.put("milestones", milestones);
-            postData.put("schedule", schedule);
+            postData.put("milestones", new JSONArray(milestones));
+            postData.put("schedule", new JSONArray(schedule));
             postData.put("tag", mBinding.editTextGoalTag.getText().toString());
             requestBody = postData.toString();
-
             StringRequest postRequest = new StringRequest(Request.Method.POST, URL,
                     new Response.Listener<String>()
                     {
