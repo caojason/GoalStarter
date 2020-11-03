@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(@Nullable GoogleSignInAccount account, int userid) {
         if (account != null) {
-            Intent feedIntent = new Intent(MainActivity.this, HostActivity.class);
+            Intent feedIntent = new Intent(LoginActivity.this, HostActivity.class);
             feedIntent.putExtra("userid", userid);
             startActivity(feedIntent);
             finish();
