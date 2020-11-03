@@ -178,7 +178,7 @@ public class HostActivity extends AppCompatActivity {
                         .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Intent loginIntent = new Intent(HostActivity.this, MainActivity.class);
+                                Intent loginIntent = new Intent(HostActivity.this, LoginActivity.class);
                                 startActivity(loginIntent);
                             }
                         });

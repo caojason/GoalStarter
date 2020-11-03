@@ -184,7 +184,7 @@ public class FeedActivity extends AppCompatActivity {
                         .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Intent loginIntent = new Intent(FeedActivity.this, MainActivity.class);
+                                Intent loginIntent = new Intent(FeedActivity.this, LoginActivity.class);
                                 startActivity(loginIntent);
                             }
                         });

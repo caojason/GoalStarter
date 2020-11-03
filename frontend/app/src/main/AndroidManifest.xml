@@ -15,15 +15,14 @@
         <activity android:name=".GoalDetailActivity"
             android:parentActivityName=".HostActivity"/>
         <activity
-            android:name=".HostActivity"
-            android:label="@string/title_activity_host">
+            android:name=".HostActivity">
 
         </activity>
         <activity
             android:name=".CreateGoalActivity"
             android:parentActivityName=".FeedActivity" />
         <activity android:name=".FeedActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
