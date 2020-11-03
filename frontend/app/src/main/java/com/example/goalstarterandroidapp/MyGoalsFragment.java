@@ -43,7 +43,7 @@ public class MyGoalsFragment extends Fragment {
                 // get user id
                 String userid = parentActivity.getIntent().getStringExtra("userid");
                 intent.putExtra("userid", userid);
-                startActivityForResult(intent, );
+                startActivity(intent);
             }
         });
 
