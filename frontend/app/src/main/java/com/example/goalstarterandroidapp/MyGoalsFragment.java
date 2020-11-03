@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,7 +44,7 @@ public class MyGoalsFragment extends Fragment {
                 // get user id
                 String userid = parentActivity.getIntent().getStringExtra("userid");
                 intent.putExtra("userid", userid);
-                startActivity(intent);
+                parentActivity.startActivityForResult(intent, 0);
             }
         });
 
@@ -75,5 +76,10 @@ public class MyGoalsFragment extends Fragment {
 
     public void attachAdapter(GoalCardRecycleViewAdapter adapter){
         mRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

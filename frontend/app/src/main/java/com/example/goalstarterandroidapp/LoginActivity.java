@@ -145,14 +145,16 @@ public class LoginActivity extends AppCompatActivity {
             params.put("idToken", idToken);
             JSONObject body = new JSONObject(params);
 
-            JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, url, body,new Response.Listener<JSONObject>() {
+            JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
 
                 @Override
                 public void onResponse(JSONObject response) {
                     String userid = "";
+                    String username = "";
                     try {
 
                         userid = response.getString("userid");
+
                         Log.d(TAG, userid);
 
                     } catch (JSONException e) {

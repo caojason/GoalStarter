@@ -33,6 +33,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class HostActivity extends AppCompatActivity {
     private static final String TAG = HostActivity.class.getName();
@@ -128,12 +130,13 @@ public class HostActivity extends AppCompatActivity {
         MyGoalsFragment myGoalsFragment = (MyGoalsFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
 
         String userid = getIntent().getStringExtra("userid");
-        String requestURL = MYGOALSURL + userid; // TODO: add user id
+        String requestURL = MYGOALSURL + userid;
 
         if (mMyGoalsAdapter == null){
             JsonArrayRequest getMyGoals = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
+                    Log.d(TAG, "Got my goals");
                     mMyGoalsAdapter = new GoalCardRecycleViewAdapter(mContext, response);
                     myGoalsFragment.attachAdapter(mMyGoalsAdapter);
                 }
@@ -164,7 +167,22 @@ public class HostActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                String returnedResult = data.getData().toString();
+                try {
+                    JSONObject newGoal = new JSONObject(returnedResult);
+                    if(mMyGoalsAdapter.getData() != null){
+                        mMyGoalsAdapter.getData().put(newGoal);
+                        mMyGoalsAdapter.notifyDataSetChanged();
+                    }
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.example.goalstarterandroidapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -178,7 +180,9 @@ public class CreateGoalActivity extends AppCompatActivity {
                         public void onResponse(String response) {
                             Log.d(TAG, response);
                             Toast.makeText(getBaseContext(), "Successfully created goal!", Toast.LENGTH_SHORT).show();
-
+                            Intent intent = new Intent();
+                            intent.setData(Uri.parse(requestBody.toString()));
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
                     },

@@ -50,8 +50,8 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
         return mData.length();
     }
 
-    public void setData(JSONArray data){
-        this.mData = data;
+    public JSONArray getData(){
+        return mData;
     }
 
     class GoalCardHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
