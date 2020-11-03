@@ -131,11 +131,11 @@ public class HostActivity extends AppCompatActivity {
         String requestURL = MYGOALSURL + Integer.toString(userid); // TODO: add user id
 
         if (mMyGoalsAdapter == null){
-            JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest getMyGoals = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     mMyGoalsAdapter = new GoalCardRecycleViewAdapter(mContext, response);
-                    myGoalsFragment.attachAdapter(mFeedAdapter);
+                    myGoalsFragment.attachAdapter(mMyGoalsAdapter);
                 }
 
             }, new Response.ErrorListener() {
@@ -146,7 +146,7 @@ public class HostActivity extends AppCompatActivity {
                 }
             });
             // send request
-            mQueue.add(getFeed);
+            mQueue.add(getMyGoals);
         }
         else{
             myGoalsFragment.attachAdapter(mMyGoalsAdapter);
