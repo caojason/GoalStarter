@@ -37,7 +37,7 @@ public class CreateGoalActivity extends AppCompatActivity {
     private static final String TAG = "CREATE GOAL LOG TAG";
     private ActivityCreateGoalBinding mBinding;
     private RequestQueue mRequestQueue;
-    private static final String URL = "http://23.99.229.212:3000/home/create_goal/123";
+    private static final String URL = "http://23.99.229.212:3000/home/create_goal/";
     private DatePickerDialog picker;
     private String[] date = new String[4];
 
@@ -161,7 +161,7 @@ public class CreateGoalActivity extends AppCompatActivity {
         System.arraycopy(date, 0, schedule, 0, date.length);
         date = new String[4];
         String requestBody;
-
+        String url = new String(URL + getIntent().getIntExtra("userid", -1));
         try {
             postData.put("title", mBinding.editTextGoalTitle.getText().toString());
             postData.put("author",  getIntent().getIntExtra("userid", -1));
@@ -170,7 +170,7 @@ public class CreateGoalActivity extends AppCompatActivity {
             postData.put("schedule", new JSONArray(schedule));
             postData.put("tag", mBinding.editTextGoalTag.getText().toString());
             requestBody = postData.toString();
-            StringRequest postRequest = new StringRequest(Request.Method.POST, URL,
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>()
                     {
                         @Override
