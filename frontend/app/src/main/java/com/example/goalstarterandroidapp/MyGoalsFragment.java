@@ -41,9 +41,9 @@ public class MyGoalsFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CreateGoalActivity.class);
                 // get user id
-                int userid = parentActivity.getIntent().getIntExtra("userid", -1);
+                String userid = parentActivity.getIntent().getStringExtra("userid");
                 intent.putExtra("userid", userid);
-                startActivity(intent);
+                startActivityForResult(intent, );
             }
         });
 

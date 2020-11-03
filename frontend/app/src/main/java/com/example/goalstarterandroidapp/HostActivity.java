@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -122,13 +123,12 @@ public class HostActivity extends AppCompatActivity {
         mFeedLayoutManager = state;
     }
 
-
     public void getMyGoalsAdapter(){
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         MyGoalsFragment myGoalsFragment = (MyGoalsFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
 
-        int userid = getIntent().getIntExtra("userid", -1);
-        String requestURL = MYGOALSURL + Integer.toString(userid); // TODO: add user id
+        String userid = getIntent().getStringExtra("userid");
+        String requestURL = MYGOALSURL + userid; // TODO: add user id
 
         if (mMyGoalsAdapter == null){
             JsonArrayRequest getMyGoals = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
@@ -159,6 +159,12 @@ public class HostActivity extends AppCompatActivity {
 
     public void setMyGoalsLayoutManager(Parcelable state){
         mMyGoalsLayoutManager = state;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override

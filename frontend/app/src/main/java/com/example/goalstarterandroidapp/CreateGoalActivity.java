@@ -161,10 +161,11 @@ public class CreateGoalActivity extends AppCompatActivity {
         System.arraycopy(date, 0, schedule, 0, date.length);
         date = new String[4];
         String requestBody;
-        String url = new String(URL + getIntent().getIntExtra("userid", -1));
+        String userid = getIntent().getStringExtra("userid");
+        String url = URL + userid;
         try {
             postData.put("title", mBinding.editTextGoalTitle.getText().toString());
-            postData.put("author",  getIntent().getIntExtra("userid", -1));
+            postData.put("author",  userid);
             postData.put("content", mBinding.editTextGoalContent.getText().toString());
             postData.put("milestones", new JSONArray(milestones));
             postData.put("schedule", new JSONArray(schedule));
@@ -177,6 +178,7 @@ public class CreateGoalActivity extends AppCompatActivity {
                         public void onResponse(String response) {
                             Log.d(TAG, response);
                             Toast.makeText(getBaseContext(), "Successfully created goal!", Toast.LENGTH_SHORT).show();
+
                             finish();
                         }
                     },

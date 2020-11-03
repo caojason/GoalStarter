@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -34,6 +35,7 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
+    private static final String TAG = LoginActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,36 +111,64 @@ public class LoginActivity extends AppCompatActivity {
             RequestQueue queue = Volley.newRequestQueue(this);
             String url ="http://23.99.229.212:3000/login";
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            int userid = 0;
-                            try {
-                                JSONObject id = new JSONObject(response);
-                                userid = id.getInt("userid");
+//            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            int userid = 0;
+//                            try {
+//                                Log.d(TAG, response);
+//                                JSONObject id = new JSONObject(response);
+//                                userid = id.getInt("userid");
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            System.out.println("USERID: " + userid);
+//                            updateUI(account,userid);
+//                        }
+//            }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    System.out.println("Error: " + error.getMessage());
+//                }
+//            }){
+//                @Override
+//                public Map<String, String> getParams()
+//                {
+//                    Map<String, String>  params = new HashMap<String, String>();
+//                    params.put("idToken", idToken);
+//                    return params;
+//                }
+//            };
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            System.out.println("USERID: " + userid);
-                            updateUI(account,userid);
-                        }
+            Map<String, String>  params = new HashMap<String, String>();
+            params.put("idToken", idToken);
+            JSONObject body = new JSONObject(params);
+
+            JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, url, body,new Response.Listener<JSONObject>() {
+
+                @Override
+                public void onResponse(JSONObject response) {
+                    String userid = "";
+                    try {
+
+                        userid = response.getString("userid");
+                        Log.d(TAG, userid);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("USERID: " + userid);
+                    updateUI(account,userid);
+                }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    System.out.println("Error: " + error.getMessage());
-                }
-            }){
-                @Override
-                public Map<String, String> getParams()
-                {
-                    Map<String, String>  params = new HashMap<String, String>();
-                    params.put("idToken", idToken);
-                    return params;
-                }
-            };
 
-            queue.add(stringRequest);
+                }
+            });
+
+            queue.add(loginRequest);
 
 
         } catch (ApiException e) {
@@ -146,11 +176,11 @@ public class LoginActivity extends AppCompatActivity {
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
 
             Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null, 0);
+            updateUI(null, "");
         }
     }
 
-    private void updateUI(@Nullable GoogleSignInAccount account, int userid) {
+    private void updateUI(@Nullable GoogleSignInAccount account, String userid) {
         if (account != null) {
             Intent feedIntent = new Intent(LoginActivity.this, HostActivity.class);
             feedIntent.putExtra("userid", userid);
