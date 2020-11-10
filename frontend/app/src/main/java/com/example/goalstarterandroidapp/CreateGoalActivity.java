@@ -54,12 +54,12 @@ public class CreateGoalActivity extends AppCompatActivity {
         mBinding.editTextGoalTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                // not used
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                // not used
             }
 
             @Override
