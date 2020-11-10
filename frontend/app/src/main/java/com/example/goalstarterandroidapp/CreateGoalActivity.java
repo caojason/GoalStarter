@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.goalstarterandroidapp.databinding.ActivityCreateGoalBinding;
@@ -26,7 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 public class CreateGoalActivity extends AppCompatActivity {
@@ -48,6 +49,33 @@ public class CreateGoalActivity extends AppCompatActivity {
 
         mRequestQueue = Volley.newRequestQueue(this);
 
+        setDatePicker();
+
+        mBinding.editTextGoalTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if("".equals(s.toString())){
+                    mBinding.buttonCreateGoal.setEnabled(false);
+                }
+                else {
+                    mBinding.buttonCreateGoal.setEnabled(true);
+                }
+            }
+        });
+
+    }
+
+    private void setDatePicker() {
         mBinding.milestone1Date.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
@@ -123,24 +151,6 @@ public class CreateGoalActivity extends AppCompatActivity {
                 date[3] = createDate(day, month + 1, year);
             }
         });
-
-        mBinding.editTextGoalTitle.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // not used
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // not used
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mBinding.buttonCreateGoal.setEnabled(!"".equals(s.toString()));
-            }
-        });
-
     }
 
     // note from Shuyao: you can get the user id by calling: getIntent().getIntExtra("userid", -1)
@@ -193,7 +203,12 @@ public class CreateGoalActivity extends AppCompatActivity {
 
                 @Override
                 public byte[] getBody() throws AuthFailureError {
-                    return requestBody == null ? null : requestBody.getBytes(StandardCharsets.UTF_8);
+                    try {
+                        return requestBody == null ? null : requestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+                        return null;
+                    }
                 }
             };
 
