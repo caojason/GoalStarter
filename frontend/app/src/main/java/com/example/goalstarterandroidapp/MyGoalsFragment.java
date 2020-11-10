@@ -13,8 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.RequestQueue;
-
 public class MyGoalsFragment extends Fragment {
 
     private static final String TAG = MyGoalsFragment.class.getName();
