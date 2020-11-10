@@ -9,6 +9,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,15 +31,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,12 +89,12 @@ public class HostActivity extends AppCompatActivity {
 
     }
 
-    public void getFeedAdapter(){
+    public void getFeedAdapter() {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         FeedFragment feedFragment = (FeedFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
 
 
-        if (mFeedAdapter == null){
+        if (mFeedAdapter == null) {
             JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, FEEDURL, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
@@ -111,28 +111,27 @@ public class HostActivity extends AppCompatActivity {
             });
             // send request
             mQueue.add(getFeed);
-        }
-        else{
+        } else {
             feedFragment.attachAdapter(mFeedAdapter);
         }
     }
 
-    public Parcelable getFeedLayoutManager(){
+    public Parcelable getFeedLayoutManager() {
         return mFeedLayoutManager;
     }
 
-    public void setFeedLayoutManager(Parcelable state){
+    public void setFeedLayoutManager(Parcelable state) {
         mFeedLayoutManager = state;
     }
 
-    public void getMyGoalsAdapter(){
+    public void getMyGoalsAdapter() {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         MyGoalsFragment myGoalsFragment = (MyGoalsFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
 
         String userid = getIntent().getStringExtra("userid");
         String requestURL = MYGOALSURL + userid;
 
-        if (mMyGoalsAdapter == null){
+        if (mMyGoalsAdapter == null) {
             JsonArrayRequest getMyGoals = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
@@ -150,38 +149,37 @@ public class HostActivity extends AppCompatActivity {
             });
             // send request
             mQueue.add(getMyGoals);
-        }
-        else{
+        } else {
             myGoalsFragment.attachAdapter(mMyGoalsAdapter);
         }
     }
 
-    public Parcelable getMyGoalsLayoutManager(){
+    public Parcelable getMyGoalsLayoutManager() {
         return mMyGoalsLayoutManager;
     }
 
-    public void setMyGoalsLayoutManager(Parcelable state){
+    public void setMyGoalsLayoutManager(Parcelable state) {
         mMyGoalsLayoutManager = state;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0) {
-            if (resultCode == RESULT_OK) {
-                String returnedResult = data.getData().toString();
-                try {
-                    JSONObject newGoal = new JSONObject(returnedResult);
-                    if(mMyGoalsAdapter.getData() != null){
-                        mMyGoalsAdapter.getData().put(newGoal);
-                        mMyGoalsAdapter.notifyDataSetChanged();
-                    }
+        if (requestCode == 0 && resultCode == RESULT_OK) {
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            String returnedResult = data.getData().toString();
+            try {
+                JSONObject newGoal = new JSONObject(returnedResult);
+                if (mMyGoalsAdapter.getData() != null) {
+                    mMyGoalsAdapter.getData().put(newGoal);
+                    mMyGoalsAdapter.notifyDataSetChanged();
                 }
 
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
+
         }
     }
 

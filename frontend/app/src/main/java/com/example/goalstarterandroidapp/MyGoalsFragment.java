@@ -18,7 +18,6 @@ import com.android.volley.RequestQueue;
 public class MyGoalsFragment extends Fragment {
 
     private static final String TAG = MyGoalsFragment.class.getName();
-    private RequestQueue mQueue;
 
     private RecyclerView mRecyclerView;
 

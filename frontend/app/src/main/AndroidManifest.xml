@@ -20,8 +20,7 @@
         </activity>
         <activity
             android:name=".CreateGoalActivity"
-            android:parentActivityName=".FeedActivity" />
-        <activity android:name=".FeedActivity" />
+            android:parentActivityName=".HostActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -6,7 +6,7 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 class BottomOffsetDecoration extends RecyclerView.ItemDecoration {
-    private int mBottomOffset;
+    private final int mBottomOffset;
 
     public BottomOffsetDecoration(int bottomOffset) {
         mBottomOffset = bottomOffset;

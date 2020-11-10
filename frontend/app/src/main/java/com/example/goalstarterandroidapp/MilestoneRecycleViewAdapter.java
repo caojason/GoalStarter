@@ -15,7 +15,7 @@ public class MilestoneRecycleViewAdapter extends RecyclerView.Adapter<MilestoneR
 
     @Override
     public void onBindViewHolder(@NonNull MilestoneRecycleViewAdapter.MilestoneViewHolder holder, int position) {
-
+        // not yet implemented
     }
 
     @Override

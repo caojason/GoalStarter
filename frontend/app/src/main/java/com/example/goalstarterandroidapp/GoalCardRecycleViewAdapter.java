@@ -2,14 +2,12 @@ package com.example.goalstarterandroidapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.goalstarterandroidapp.databinding.GoalCardBinding;
@@ -18,12 +16,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRecycleViewAdapter.GoalCardHolder> {
     private static final String LOGTAG = "GOAL CARD RECYCLER VIEW";
-    private Context mContext;
-    private JSONArray mData;
+    private final Context mContext;
+    private final JSONArray mData;
 
     GoalCardRecycleViewAdapter(Context context, JSONArray data){
         this.mContext = context;
@@ -55,7 +51,7 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
     }
 
     class GoalCardHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private GoalCardBinding mBinding;
+        private final GoalCardBinding mBinding;
 
         public GoalCardHolder(@NonNull View itemView) {
             super(itemView);

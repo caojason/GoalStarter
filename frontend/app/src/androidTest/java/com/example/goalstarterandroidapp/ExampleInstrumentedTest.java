@@ -7,9 +7,8 @@ import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.ActivityTestRule;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -27,7 +26,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumented test, which will execute on an Android device.
