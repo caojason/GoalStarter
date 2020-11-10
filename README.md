@@ -1,5 +1,5 @@
 # GoalStarter
-Android app for tracking goals
+Android app for tracking goals (work in progress)
 
 Goal: 
 
