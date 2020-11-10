@@ -50,11 +50,12 @@ public class LoginActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.sign_in_button:
-                        signIn();
-                        break;
-                }
+                signIn();
+//                switch (view.getId()) {
+//                    case R.id.sign_in_button:
+//                        signIn();
+//                        break;
+//                }
             }
         });
 
@@ -150,7 +151,6 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     String userid = "";
-                    String username = "";
                     try {
 
                         userid = response.getString("userid");

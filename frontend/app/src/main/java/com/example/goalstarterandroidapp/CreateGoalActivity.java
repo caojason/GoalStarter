@@ -54,6 +54,33 @@ public class CreateGoalActivity extends AppCompatActivity {
 
         mRequestQueue = Volley.newRequestQueue(this);
 
+        setDatePicker();
+
+        mBinding.editTextGoalTitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if("".equals(s.toString())){
+                    mBinding.buttonCreateGoal.setEnabled(false);
+                }
+                else {
+                    mBinding.buttonCreateGoal.setEnabled(true);
+                }
+            }
+        });
+
+    }
+
+    private void setDatePicker() {
         mBinding.milestone1Date.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
@@ -129,29 +156,6 @@ public class CreateGoalActivity extends AppCompatActivity {
                 date[3] = createDate(day, month + 1, year);
             }
         });
-
-        mBinding.editTextGoalTitle.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if("".equals(s.toString())){
-                    mBinding.buttonCreateGoal.setEnabled(false);
-                }
-                else {
-                    mBinding.buttonCreateGoal.setEnabled(true);
-                }
-            }
-        });
-
     }
 
     // note from Shuyao: you can get the user id by calling: getIntent().getIntExtra("userid", -1)
@@ -181,7 +185,7 @@ public class CreateGoalActivity extends AppCompatActivity {
                             Log.d(TAG, response);
                             Toast.makeText(getBaseContext(), "Successfully created goal!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent();
-                            intent.setData(Uri.parse(requestBody.toString()));
+                            intent.setData(Uri.parse(requestBody));
                             setResult(RESULT_OK, intent);
                             finish();
                         }
