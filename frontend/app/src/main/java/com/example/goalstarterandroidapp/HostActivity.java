@@ -42,11 +42,11 @@ public class HostActivity extends AppCompatActivity {
     private ActivityHostBinding mBinding;
     private RequestQueue mQueue;
     // Feed fragment data
-    private static final String FEEDURL = "http://23.99.229.212:3000/home/";
+    private static final String FEEDURL = "http://52.188.108.13:3000/home/";
     private GoalCardRecycleViewAdapter mFeedAdapter;
     private Parcelable mFeedLayoutManager;
     // My Goals fragment data
-    private static final String MYGOALSURL = "http://23.99.229.212:3000/home/view_goals/";
+    private static final String MYGOALSURL = "http://52.188.108.13:3000/home/view_goals/";
     private GoalCardRecycleViewAdapter mMyGoalsAdapter;
     private Parcelable mMyGoalsLayoutManager;
     // Google sign in used for log out

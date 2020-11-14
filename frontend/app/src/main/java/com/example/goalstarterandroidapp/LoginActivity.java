@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             RequestQueue queue = Volley.newRequestQueue(this);
-            String url ="http://23.99.229.212:3000/login";
+            String url ="http://52.188.108.13:3000/login";
 
 //            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 //                        @Override
