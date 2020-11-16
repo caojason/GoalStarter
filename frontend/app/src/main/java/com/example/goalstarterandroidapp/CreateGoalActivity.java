@@ -31,7 +31,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
 public class CreateGoalActivity extends AppCompatActivity {
-    private static final String TAG = "CREATE GOAL LOG TAG";
+    private static final String TAG = CreateGoalActivity.class.getName();
     private ActivityCreateGoalBinding mBinding;
     private RequestQueue mRequestQueue;
     private static final String URL = "http://52.188.108.13:3000/home/create_goal/";
@@ -163,21 +163,20 @@ public class CreateGoalActivity extends AppCompatActivity {
         date = new String[4];
         String requestBody;
         String userInfo = getIntent().getStringExtra("userInfo");
+        Log.d(TAG, userInfo);
         JSONObject userInfoJSON = null;
         String userid = null;
-
-
-
 
         try {
             userInfoJSON = new JSONObject(userInfo);
             userid = userInfoJSON.getString("userid");
+            Log.d(TAG, userid);
             String url = URL + userid;
 
             // create a new goal JSON object
             postData.put("id", userid);
             postData.put("title", mBinding.editTextGoalTitle.getText().toString());
-            postData.put("author",  userInfoJSON.getString("author"));
+            postData.put("author",  userInfoJSON.getString("name"));
             postData.put("content", mBinding.editTextGoalContent.getText().toString());
             postData.put("milestones", new JSONArray(milestones));
             postData.put("schedule", new JSONArray(schedule));
