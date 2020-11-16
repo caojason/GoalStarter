@@ -93,9 +93,11 @@ public class HostActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         FeedFragment feedFragment = (FeedFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
 
+        String userid = getIntent().getStringExtra("userid");
+        String requestURL = FEEDURL + userid;
 
         if (mFeedAdapter == null) {
-            JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, FEEDURL, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     mFeedAdapter = new GoalCardRecycleViewAdapter(mContext, response);
