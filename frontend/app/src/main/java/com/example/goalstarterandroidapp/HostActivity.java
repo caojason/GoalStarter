@@ -93,7 +93,16 @@ public class HostActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         FeedFragment feedFragment = (FeedFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
 
-        String userid = getIntent().getStringExtra("userid");
+        String userInfo = getIntent().getStringExtra("userInfo");
+        JSONObject userInfoJSON;
+        String userid = null;
+        try {
+            userInfoJSON = new JSONObject(userInfo);
+            userid = userInfoJSON.getString("userid");
+        }catch (JSONException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Get userid failed");
+        }
         String requestURL = FEEDURL + userid;
 
         if (mFeedAdapter == null) {
