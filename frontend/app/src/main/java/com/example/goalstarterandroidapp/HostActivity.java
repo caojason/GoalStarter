@@ -128,7 +128,14 @@ public class HostActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         MyGoalsFragment myGoalsFragment = (MyGoalsFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
 
-        String userid = getIntent().getStringExtra("userid");
+        String userInfo = getIntent().getStringExtra("userInfo");
+        String userid = null;
+        try {
+            JSONObject data = new JSONObject(userInfo);
+            userid = data.getString("userid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         String requestURL = MYGOALSURL + userid;
 
         if (mMyGoalsAdapter == null) {
@@ -165,21 +172,19 @@ public class HostActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 0 && resultCode == RESULT_OK) {
 
             String returnedResult = data.getData().toString();
             try {
                 JSONObject newGoal = new JSONObject(returnedResult);
-                if (mMyGoalsAdapter.getData() != null) {
+                if (mMyGoalsAdapter.getData() != null && mMyGoalsAdapter.getData() != null) {
                     mMyGoalsAdapter.getData().put(newGoal);
                     mMyGoalsAdapter.notifyDataSetChanged();
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
         }
     }
 

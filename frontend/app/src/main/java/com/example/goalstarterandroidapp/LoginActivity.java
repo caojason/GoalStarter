@@ -149,18 +149,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(JSONObject response) {
-                    String userid = "";
-                    try {
 
-                        userid = response.getString("userid");
+                    String userInfo = response.toString();
+                    Log.d(TAG, userInfo);
 
-                        Log.d(TAG, userid);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("USERID: " + userid);
-                    updateUI(account,userid);
+                    updateUI(account,userInfo);
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -182,11 +176,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void updateUI(@Nullable GoogleSignInAccount account, String userid) {
+    private void updateUI(@Nullable GoogleSignInAccount account, String userInfo) {
         if (account != null) {
-            Intent feedIntent = new Intent(LoginActivity.this, HostActivity.class);
-            feedIntent.putExtra("userid", userid);
-            startActivity(feedIntent);
+            Intent intent = new Intent(LoginActivity.this, HostActivity.class);
+            intent.putExtra("userInfo", userInfo);
+            startActivity(intent);
             finish();
         }
 

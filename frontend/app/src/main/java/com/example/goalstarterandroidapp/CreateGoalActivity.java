@@ -162,15 +162,28 @@ public class CreateGoalActivity extends AppCompatActivity {
         System.arraycopy(date, 0, schedule, 0, date.length);
         date = new String[4];
         String requestBody;
-        String userid = getIntent().getStringExtra("userid");
-        String url = URL + userid;
+        String userInfo = getIntent().getStringExtra("userInfo");
+        JSONObject userInfoJSON = null;
+        String userid = null;
+
+
+
+
         try {
+            userInfoJSON = new JSONObject(userInfo);
+            userid = userInfoJSON.getString("userid");
+            String url = URL + userid;
+
+            // create a new goal JSON object
+            postData.put("id", userid);
             postData.put("title", mBinding.editTextGoalTitle.getText().toString());
-            postData.put("author",  userid);
+            postData.put("author",  userInfoJSON.getString("author"));
             postData.put("content", mBinding.editTextGoalContent.getText().toString());
             postData.put("milestones", new JSONArray(milestones));
             postData.put("schedule", new JSONArray(schedule));
             postData.put("tag", mBinding.editTextGoalTag.getText().toString());
+            postData.put("likes", 0);
+
             requestBody = postData.toString();
             StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>()
@@ -214,7 +227,9 @@ public class CreateGoalActivity extends AppCompatActivity {
 
             mRequestQueue.add(postRequest);
         } catch (JSONException e) {
+            Log.d(TAG, "JSON operation failed");
             e.printStackTrace();
+            Toast.makeText(getBaseContext(), "Create goal failed", Toast.LENGTH_SHORT).show();
         }
     }
 
