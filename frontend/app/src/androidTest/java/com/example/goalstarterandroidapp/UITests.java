@@ -18,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +26,7 @@ import org.junit.runner.RunWith;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
@@ -97,6 +99,29 @@ public class UITests {
                 allOf(withId(R.id.frameLayout),
                         withParent(allOf(withId(R.id.nav_host_fragment),
                                 withParent(withId(R.id.container)))),
+                        isDisplayed()));
+        viewGroup.check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void createGoalActivityTest() {
+
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.recycler_view_feed_fragment),
+                        withParent(withParent(withId(R.id.nav_host_fragment))),
+                        isDisplayed()));
+        recyclerView.check(matches(isDisplayed()));
+
+        ViewInteraction recyclerView2 = onView(
+                allOf(withId(R.id.recycler_view_feed_fragment),
+                        childAtPosition(
+                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                0)));
+        recyclerView2.perform(actionOnItemAtPosition(0, click()));
+
+        ViewInteraction viewGroup = onView(
+                allOf(withParent(allOf(withId(android.R.id.content),
+                        withParent(withId(R.id.action_bar_root)))),
                         isDisplayed()));
         viewGroup.check(matches(isDisplayed()));
     }
