@@ -150,12 +150,15 @@ public class HostActivity extends AppCompatActivity {
         String requestURL = MYGOALSURL + userid;
 
         if (mMyGoalsAdapter == null) {
+            long requestStartTime = System.currentTimeMillis();
             JsonArrayRequest getMyGoals = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     Log.d(TAG, "Got my goals");
                     mMyGoalsAdapter = new GoalCardRecycleViewAdapter(mContext, response);
                     myGoalsFragment.attachAdapter(mMyGoalsAdapter);
+                    long responseTime = System.currentTimeMillis() - requestStartTime;
+                    Log.d(TAG, "response time: " + String.valueOf(responseTime));
                 }
 
             }, new Response.ErrorListener() {
@@ -163,6 +166,8 @@ public class HostActivity extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     Log.d(TAG, "Did not get JSON array");
                     error.printStackTrace();
+                    long responseTime = System.currentTimeMillis() - requestStartTime;
+                    Log.d(TAG, "response time: " + String.valueOf(responseTime));
                 }
             });
             // send request

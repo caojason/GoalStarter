@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
-
+            Log.d(TAG, "id token is: " + idToken);
 
             RequestQueue queue = Volley.newRequestQueue(this);
             String url ="http://52.188.108.13:3000/login";
