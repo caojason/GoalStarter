@@ -172,12 +172,6 @@ public class UITests {
                         isDisplayed()));
         button.check(matches(isDisplayed()));
 
-        ViewInteraction button2 = onView(
-                allOf(withText("Sign in"),
-                        withParent(allOf(withId(R.id.sign_in_button),
-                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
-                        isDisplayed()));
-        button2.check(matches(isDisplayed()));
     }
 
     @Test
@@ -304,11 +298,6 @@ public class UITests {
                         isDisplayed()));
         recyclerView2.check(matches(isDisplayed()));
 
-//        ViewInteraction cardView = onView(
-//                allOf(withId(R.id.card_view_goal_card),
-//                        withParent(allOf(withId(R.id.recycler_view_my_goals))),
-//                        isDisplayed()));
-//        cardView.check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(
