@@ -36,8 +36,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
 
-    @Rule
-    public ActivityScenarioRule<HostActivity> mActivityTestRule = new ActivityScenarioRule<HostActivity>(HostActivity.class);
+//    @Rule
+//    public ActivityScenarioRule<HostActivity> mActivityTestRule = new ActivityScenarioRule<HostActivity>(HostActivity.class);
     @Test
     public void useAppContext() {
         // Context of the app under test.
@@ -45,52 +45,7 @@ public class ExampleInstrumentedTest {
         assertEquals("com.example.goalstarterandroidapp", appContext.getPackageName());
     }
 
-    @Test
-    public void checkCreateGoal() {
-        // Click My Goals button
-        ViewInteraction bottomNavigationItemView = onView(
-                allOf(withId(R.id.navigation_my_goals), withContentDescription("My Goals"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.nav_view),
-                                        0),
-                                1),
-                        isDisplayed()));
-        bottomNavigationItemView.perform(click());
+    
 
-        ViewInteraction extendedFloatingActionButton = onView(
-                allOf(withId(R.id.fab_my_goal_fragment), withText("CREATE GOAL"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.nav_host_fragment),
-                                        0),
-                                1),
-                        isDisplayed()));
-        extendedFloatingActionButton.perform(click());
-        // Click create goal button
-        ViewInteraction viewGroup = onView(
-                allOf(withParent(allOf(withId(android.R.id.content),
-                        withParent(withId(R.id.action_bar_root)))),
-                        isDisplayed()));
-        // check if the create goals activity is displayed
-        viewGroup.check(matches(isDisplayed()));
-    }
 
-    private static Matcher<View> childAtPosition(final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
-    }
 }
