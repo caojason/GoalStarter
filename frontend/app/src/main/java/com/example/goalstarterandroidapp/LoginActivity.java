@@ -23,12 +23,15 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -141,9 +144,19 @@ public class LoginActivity extends AppCompatActivity {
 //                }
 //            };
 
+            // asynchronous task to get the firebase cloud messaging token
+            Task<String> getFirebaseToken = FirebaseMessaging.getInstance().getToken();
+
             Map<String, String>  params = new HashMap<String, String>();
             params.put("idToken", idToken);
+            // wait for firebase token to come
+//            Tasks.await(getFirebaseToken);
+//            String firebaseToken = getFirebaseToken.getResult();
+//            Log.d(TAG, firebaseToken);
+//            params.put("firebase", firebaseToken);
+
             JSONObject body = new JSONObject(params);
+
 
             JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
 
@@ -174,6 +187,12 @@ public class LoginActivity extends AppCompatActivity {
             Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
             updateUI(null, "");
         }
+//        // firebase exeptions, commented out for now
+//        catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void updateUI(@Nullable GoogleSignInAccount account, String userInfo) {
