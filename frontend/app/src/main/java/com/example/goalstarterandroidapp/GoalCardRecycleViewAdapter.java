@@ -21,7 +21,7 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
     private final Context mContext;
     private final JSONArray mData;
 
-    GoalCardRecycleViewAdapter(Context context, JSONArray data){
+    public GoalCardRecycleViewAdapter(Context context, JSONArray data){
         this.mContext = context;
         this.mData = data;
     }

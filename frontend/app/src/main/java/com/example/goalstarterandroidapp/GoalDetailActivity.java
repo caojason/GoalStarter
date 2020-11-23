@@ -40,8 +40,14 @@ public class GoalDetailActivity extends AppCompatActivity {
             mBinding.goalCard.textViewGoalCardGoal.setText(mData.getString("title"));
             mBinding.goalCard.textViewGoalCardDetails.setText(mData.getString("content"));
             Log.d(TAG, mData.toString());
+        } catch (JSONException e){
+            e.printStackTrace();
         }
-        catch (JSONException e){
+
+        // bind milestone recyclerview data
+        try {
+            Log.d(TAG, mData.get("milestones").getClass().toString());
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 

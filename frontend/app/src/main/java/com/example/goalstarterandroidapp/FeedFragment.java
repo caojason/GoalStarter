@@ -86,7 +86,7 @@ public class FeedFragment extends Fragment {
         parentActivity.getFeedAdapter();
 
         // add spacing to the bottom of recycler view (16dp)
-        BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int)(16 * getResources().getDisplayMetrics().density));
+        BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int)(10 * getResources().getDisplayMetrics().density));
         mRecyclerView.addItemDecoration(bottomOffsetDecoration);
 
         return view;

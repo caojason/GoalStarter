@@ -278,4 +278,10 @@ public class CreateGoalActivity extends AppCompatActivity {
 
         return monthWord + " " + day + ", " + year;
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }
