@@ -20,10 +20,15 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
     private static final String LOGTAG = "GOAL CARD RECYCLER VIEW";
     private final Context mContext;
     private final JSONArray mData;
+    private final JSONObject mUserInfo;
+    private final int mAdapterType; // 0 for feed, 1 for my goals
 
-    public GoalCardRecycleViewAdapter(Context context, JSONArray data){
+    // constructor
+    public GoalCardRecycleViewAdapter(Context context, JSONArray data, JSONObject userInfo, int adapterType){
         this.mContext = context;
         this.mData = data;
+        this.mUserInfo = userInfo;
+        this.mAdapterType = adapterType;
     }
 
     @NonNull
@@ -57,6 +62,7 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
             super(itemView);
             mBinding = GoalCardBinding.bind(itemView);
             itemView.setOnClickListener(this);
+            mBinding.buttonGoalCardComment.setOnClickListener(this::onClickComment);
         }
 
         public void bind(JSONObject data) {
@@ -89,6 +95,28 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
                 e.printStackTrace();
             }
 
+        }
+
+        public void onClickComment(View v){
+            try {
+                // get json object for goal
+                int mPosition = getAdapterPosition();
+                JSONObject goal = (JSONObject) mData.get(mPosition);
+                // convert to string for sending
+                String argGoal = goal.toString();
+                // get name of current user
+                String username = mUserInfo.getString("name");
+                // start the goal detail activity
+                Intent intent = new Intent(mContext, CommentActivity.class);
+                intent.putExtra("goal", argGoal);
+                intent.putExtra("username", username);
+                intent.putExtra("position", mPosition);
+                intent.putExtra("adapter type", mAdapterType);
+                mContext.startActivity(intent);
+            }
+            catch (JSONException e){
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.goalstarterandroidapp.databinding.ActivityGoalDetailBinding;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,11 +47,18 @@ public class GoalDetailActivity extends AppCompatActivity {
         }
 
         // bind milestone recyclerview data
+        mBinding.recyclerViewGoalDetail.setLayoutManager(new LinearLayoutManager(this));
         try {
-            Log.d(TAG, mData.get("milestones").getClass().toString());
+            JSONArray milestones = mData.getJSONArray("milestones");
+            JSONArray schedule = mData.getJSONArray("schedule");
+            mBinding.recyclerViewGoalDetail.setAdapter(new MilestoneRecycleViewAdapter(this, milestones, schedule));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        // add spacing to the bottom of recycler view (16dp)
+        BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int)(10 * getResources().getDisplayMetrics().density));
+        mBinding.recyclerViewGoalDetail.addItemDecoration(bottomOffsetDecoration);
 
     }
 

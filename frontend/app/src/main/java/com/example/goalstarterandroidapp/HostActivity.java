@@ -99,32 +99,38 @@ public class HostActivity extends AppCompatActivity {
         try {
             userInfoJSON = new JSONObject(userInfo);
             userid = userInfoJSON.getString("userid");
+            Log.d(TAG, "userid: "+userid);
+
+            String requestURL = FEEDURL + userid;
+            Log.d(TAG, "requestURL: " + requestURL);
+
+            if (mFeedAdapter == null) {
+                JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        mFeedAdapter = new GoalCardRecycleViewAdapter(mContext, response, userInfoJSON, 0); // adapter type is 0 for feed
+                        feedFragment.attachAdapter(mFeedAdapter);
+                        Log.d(TAG, "Successfully got feed data: \n"+ response.toString());
+
+                    }
+
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Did not get JSON array");
+                        error.printStackTrace();
+                    }
+                });
+                // send request
+                mQueue.add(getFeed);
+            } else {
+                feedFragment.attachAdapter(mFeedAdapter);
+            }
         }catch (JSONException e) {
             e.printStackTrace();
             Log.d(TAG, "Get userid failed");
         }
-        String requestURL = FEEDURL + userid;
 
-        if (mFeedAdapter == null) {
-            JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    mFeedAdapter = new GoalCardRecycleViewAdapter(mContext, response);
-                    feedFragment.attachAdapter(mFeedAdapter);
-                }
-
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d(TAG, "Did not get JSON array");
-                    error.printStackTrace();
-                }
-            });
-            // send request
-            mQueue.add(getFeed);
-        } else {
-            feedFragment.attachAdapter(mFeedAdapter);
-        }
     }
 
     public Parcelable getFeedLayoutManager() {
@@ -140,41 +146,43 @@ public class HostActivity extends AppCompatActivity {
         MyGoalsFragment myGoalsFragment = (MyGoalsFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
 
         String userInfo = getIntent().getStringExtra("userInfo");
+        JSONObject userInfoJSON;
         String userid = null;
         try {
-            JSONObject data = new JSONObject(userInfo);
-            userid = data.getString("userid");
+            userInfoJSON = new JSONObject(userInfo);
+            userid = userInfoJSON.getString("userid");
+            String requestURL = MYGOALSURL + userid;
+
+            if (mMyGoalsAdapter == null) {
+                long requestStartTime = System.currentTimeMillis();
+                JsonArrayRequest getMyGoals = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, "Got my goals");
+                        mMyGoalsAdapter = new GoalCardRecycleViewAdapter(mContext, response, userInfoJSON, 1); // adapter type is 1 for my goals
+                        myGoalsFragment.attachAdapter(mMyGoalsAdapter);
+                        long responseTime = System.currentTimeMillis() - requestStartTime;
+                        Log.d(TAG, "response time: " + String.valueOf(responseTime));
+                    }
+
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Did not get JSON array");
+                        error.printStackTrace();
+                        long responseTime = System.currentTimeMillis() - requestStartTime;
+                        Log.d(TAG, "response time: " + String.valueOf(responseTime));
+                    }
+                });
+                // send request
+                mQueue.add(getMyGoals);
+            } else {
+                myGoalsFragment.attachAdapter(mMyGoalsAdapter);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String requestURL = MYGOALSURL + userid;
 
-        if (mMyGoalsAdapter == null) {
-            long requestStartTime = System.currentTimeMillis();
-            JsonArrayRequest getMyGoals = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    Log.d(TAG, "Got my goals");
-                    mMyGoalsAdapter = new GoalCardRecycleViewAdapter(mContext, response);
-                    myGoalsFragment.attachAdapter(mMyGoalsAdapter);
-                    long responseTime = System.currentTimeMillis() - requestStartTime;
-                    Log.d(TAG, "response time: " + String.valueOf(responseTime));
-                }
-
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d(TAG, "Did not get JSON array");
-                    error.printStackTrace();
-                    long responseTime = System.currentTimeMillis() - requestStartTime;
-                    Log.d(TAG, "response time: " + String.valueOf(responseTime));
-                }
-            });
-            // send request
-            mQueue.add(getMyGoals);
-        } else {
-            myGoalsFragment.attachAdapter(mMyGoalsAdapter);
-        }
     }
 
     public Parcelable getMyGoalsLayoutManager() {
@@ -189,6 +197,7 @@ public class HostActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // handle creating a goal
         if (requestCode == 0 && resultCode == RESULT_OK) {
 
             String returnedResult = data.getData().toString();

@@ -1,6 +1,7 @@
 package com.example.goalstarterandroidapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -165,7 +166,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     String userInfo = response.toString();
                     Log.d(TAG, userInfo);
-
 
                     updateUI(account,userInfo);
                 }
