@@ -17,7 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRecycleViewAdapter.GoalCardHolder> {
-    private static final String LOGTAG = "GOAL CARD RECYCLER VIEW";
+    private static final String TAG = GoalCardRecycleViewAdapter.class.getName();
     private final Context mContext;
     private final JSONArray mData;
     private final JSONObject mUserInfo;
@@ -74,7 +74,7 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
                 mBinding.textViewGoalCardDetails.setText(data.getString("content"));
             }
             catch (JSONException e){
-                Log.d(LOGTAG, "unable to retrieve required data from json object");
+                Log.d(TAG, "unable to retrieve required data from json object");
             }
 
         }
@@ -112,6 +112,7 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
                 // start the goal detail activity
                 Intent intent = new Intent(mContext, CommentActivity.class);
                 intent.putExtra("goal", argGoal);
+                Log.d(TAG, argGoal);
                 intent.putExtra("username", username);
                 intent.putExtra("userid", userid);
                 intent.putExtra("position", mPosition);

@@ -25,7 +25,6 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
         this.mComments = comments;
     }
 
-
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,6 +51,9 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
         } catch (JSONException e) {
             e.printStackTrace();
         }
+//        if(position == 0){
+//            holder.hide();
+//        }
     }
 
     @Override
@@ -73,6 +75,11 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
         public void bind(String author, String comment){
             mBinding.textViewCommentAuthor.setText(author);
             mBinding.textViewCommentContent.setText(comment);
+        }
+
+        // prevents the view group from being displayed
+        public void hide(){
+            mBinding.getRoot().setVisibility(View.GONE);
         }
     }
 }

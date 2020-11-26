@@ -164,6 +164,7 @@ public class HostActivity extends AppCompatActivity {
                         myGoalsFragment.attachAdapter(mMyGoalsAdapter);
                         long responseTime = System.currentTimeMillis() - requestStartTime;
                         Log.d(TAG, "response time: " + String.valueOf(responseTime));
+                        Log.d(TAG, response.toString());
                     }
 
                 }, new Response.ErrorListener() {
@@ -206,6 +207,7 @@ public class HostActivity extends AppCompatActivity {
         if (requestCode == 0 && resultCode == RESULT_OK) {
 
             String returnedResult = data.getData().toString();
+            Log.d(TAG, "returned result: " + returnedResult);
             try {
                 JSONObject newGoal = new JSONObject(returnedResult);
                 if (mMyGoalsAdapter.getData() != null && mMyGoalsAdapter.getData() != null) {
