@@ -55,6 +55,7 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
         return mData;
     }
 
+    // custom view holder class
     class GoalCardHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final GoalCardBinding mBinding;
 
@@ -106,13 +107,16 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
                 String argGoal = goal.toString();
                 // get name of current user
                 String username = mUserInfo.getString("name");
+                // get id of current user
+                String userid = mUserInfo.getString("userid");
                 // start the goal detail activity
                 Intent intent = new Intent(mContext, CommentActivity.class);
                 intent.putExtra("goal", argGoal);
                 intent.putExtra("username", username);
+                intent.putExtra("userid", userid);
                 intent.putExtra("position", mPosition);
                 intent.putExtra("adapter type", mAdapterType);
-                mContext.startActivity(intent);
+                ((HostActivity)mContext).startActivityForResult(intent, 1);
             }
             catch (JSONException e){
                 e.printStackTrace();

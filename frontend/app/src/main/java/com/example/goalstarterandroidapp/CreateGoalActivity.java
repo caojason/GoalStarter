@@ -191,6 +191,7 @@ public class CreateGoalActivity extends AppCompatActivity {
                         public void onResponse(String response) {
                             Log.d(TAG, response);
                             Toast.makeText(getBaseContext(), "Successfully created goal!", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "Goal: " + requestBody);
                             Intent intent = new Intent();
                             intent.setData(Uri.parse(requestBody));
                             setResult(RESULT_OK, intent);

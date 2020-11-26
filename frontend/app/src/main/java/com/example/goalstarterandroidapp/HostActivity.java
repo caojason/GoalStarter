@@ -23,6 +23,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.goalstarterandroidapp.databinding.ActivityHostBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -197,6 +198,10 @@ public class HostActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // request codes:
+        // 0: creating a new goal
+        // 1: adding a comment to a goal
+
         // handle creating a goal
         if (requestCode == 0 && resultCode == RESULT_OK) {
 
@@ -210,6 +215,44 @@ public class HostActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+        else if(requestCode == 1 && resultCode == RESULT_OK){
+            // get updated goal
+            String goalString = data.getStringExtra("goal");
+            JSONObject goal = null;
+            try {
+                goal = new JSONObject(goalString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.d(TAG, "failed to parse goal string into a goal");
+            }
+            // get the adapter that we need to update
+            int source = data.getIntExtra("adapter type", -1);
+            GoalCardRecycleViewAdapter adapter = null;
+            if(source == 0){
+                adapter = mFeedAdapter;
+            }
+            else if(source == 1){
+                adapter = mMyGoalsAdapter;
+            }
+            else{
+                Log.d(TAG, "cannot determine which adapter to update");
+            }
+            // get the position that we need to update
+            int position = data.getIntExtra("position", -1);
+            // update
+            if(position != -1 && adapter != null && goal != null){
+                try {
+                    adapter.getData().put(position, goal);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "JSON error, failed to update data in adapter");
+                }
+            }
+            else{
+                Log.d(TAG, "ERROR, failed to update data in adapter");
+            }
+
         }
     }
 
