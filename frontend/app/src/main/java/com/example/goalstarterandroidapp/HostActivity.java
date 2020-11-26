@@ -38,7 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class HostActivity extends AppCompatActivity {
-    private static final String TAG = HostActivity.class.getName();
+    private static final String TAG = HostActivity.class.getSimpleName();
     private Context mContext;
     private ActivityHostBinding mBinding;
     private RequestQueue mQueue;
