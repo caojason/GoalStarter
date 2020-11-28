@@ -172,16 +172,22 @@ public class CreateGoalActivity extends AppCompatActivity {
             userid = userInfoJSON.getString("userid");
             Log.d(TAG, userid);
             String url = URL + userid;
+            String title = mBinding.editTextGoalTitle.getText().toString();
+            String id = userid + title;
+            JSONArray comments = new JSONArray();
+            comments.put("NULL");
 
             // create a new goal JSON object
-            postData.put("id", userid);
-            postData.put("title", mBinding.editTextGoalTitle.getText().toString());
+            postData.put("id", id);
+            postData.put("title", title);
             postData.put("author",  userInfoJSON.getString("name"));
             postData.put("content", mBinding.editTextGoalContent.getText().toString());
             postData.put("milestones", new JSONArray(milestones));
             postData.put("schedule", new JSONArray(schedule));
             postData.put("tag", mBinding.editTextGoalTag.getText().toString());
+            postData.put("comments", comments);
             postData.put("likes", 0);
+            postData.put("index", 0);
 
             requestBody = postData.toString();
             StringRequest postRequest = new StringRequest(Request.Method.POST, url,
@@ -191,6 +197,7 @@ public class CreateGoalActivity extends AppCompatActivity {
                         public void onResponse(String response) {
                             Log.d(TAG, response);
                             Toast.makeText(getBaseContext(), "Successfully created goal!", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "Goal: " + requestBody);
                             Intent intent = new Intent();
                             intent.setData(Uri.parse(requestBody));
                             setResult(RESULT_OK, intent);
@@ -277,5 +284,11 @@ public class CreateGoalActivity extends AppCompatActivity {
         }
 
         return monthWord + " " + day + ", " + year;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

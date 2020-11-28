@@ -1,9 +1,11 @@
 package com.example.goalstarterandroidapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +16,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -23,18 +26,21 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 
 public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
-    private static final String TAG = LoginActivity.class.getName();
+    private static final String TAG = LoginActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,16 +149,64 @@ public class LoginActivity extends AppCompatActivity {
 
             Map<String, String>  params = new HashMap<String, String>();
             params.put("idToken", idToken);
+
             JSONObject body = new JSONObject(params);
+
 
             JsonObjectRequest loginRequest = new JsonObjectRequest(Request.Method.POST, url, body, new Response.Listener<JSONObject>() {
 
                 @Override
                 public void onResponse(JSONObject response) {
 
+                    // asynchronous task to get the firebase cloud messaging token
+                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                        @Override
+                        public void onComplete(@NonNull Task<String> task) {
+                            if (!task.isSuccessful()) {
+                                Log.d(TAG, "Fetching FCM registration token failed", task.getException());
+                            }
+
+                            // Get new FCM registration token
+                            String token = task.getResult();
+                            Log.d(TAG, "Firebase token: " + token);
+                            // get user id
+                            String userid = null;
+                            try {
+                                userid = response.getString("userid");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            // make request url
+                            String url = "http://52.188.108.13:3000/home/firebase/" + userid;
+                            // make request body
+                            Map<String, String>  requestBody = new HashMap<String, String>();
+                            requestBody.put("token", token);
+                            // make request
+                            StringRequest sendFCMToken = new StringRequest(Request.Method.PUT, url, new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    Log.d(TAG, "Successfully sent firebase token");
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.d(TAG, "Failed to sent firebase token, error: " + error.toString());
+                                    Log.d(TAG, "url used: " + url);
+                                    error.printStackTrace();
+                                }
+                            }){
+                                @Override
+                                public byte[] getBody(){
+                                    return requestBody.toString().getBytes();
+                                }
+                            };
+
+                            queue.add(sendFCMToken);
+                        }
+                    });
+
                     String userInfo = response.toString();
                     Log.d(TAG, userInfo);
-
 
                     updateUI(account,userInfo);
                 }
@@ -174,6 +228,12 @@ public class LoginActivity extends AppCompatActivity {
             Log.w("Error", "signInResult:failed code=" + e.getStatusCode());
             updateUI(null, "");
         }
+//        // firebase exeptions, commented out for now
+//        catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void updateUI(@Nullable GoogleSignInAccount account, String userInfo) {
