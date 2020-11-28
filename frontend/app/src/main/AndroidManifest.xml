@@ -12,12 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoalStarterAndroidApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".GoalDetailActivity"
-            android:parentActivityName=".HostActivity"/>
+        <activity android:name=".FriendReqActivity"></activity>
         <activity
-            android:name=".HostActivity">
-
-        </activity>
+            android:name=".GoalDetailActivity"
+            android:parentActivityName=".HostActivity" />
+        <activity android:name=".HostActivity"></activity>
         <activity
             android:name=".CreateGoalActivity"
             android:parentActivityName=".HostActivity" />

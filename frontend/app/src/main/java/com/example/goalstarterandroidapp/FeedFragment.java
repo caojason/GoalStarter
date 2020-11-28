@@ -44,7 +44,7 @@ public class FeedFragment extends Fragment {
 //        return fragment;
 //    }
 
-    private static final String TAG = FeedFragment.class.getName();
+    private static final String FRIENDLISTURL = "http://52.188.108.13:3000/friendslist/";
 
     private RecyclerView mRecyclerView;
 
@@ -54,6 +54,8 @@ public class FeedFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         parentActivity = (HostActivity) getActivity();
+
+        String[] userInfo = parentActivity.getIntent().getStringArrayExtra("userInfo");
 
     }
 
