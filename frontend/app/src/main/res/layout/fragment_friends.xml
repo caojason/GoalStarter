@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".FriendsFragment">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_friends_fragment"
         android:layout_width="match_parent"
@@ -15,6 +16,26 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_add_friends_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="Add Friends"
+        app:icon="@drawable/ic_add"
+        app:layout_constraintBottom_toTopOf="@+id/fab_friend_req_button"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_friend_req_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="Friend Requests"
+        app:icon="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

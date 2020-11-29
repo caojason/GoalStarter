@@ -34,7 +34,9 @@ public class FriendsReqRecycleViewAdapter extends RecyclerView.Adapter<FriendsRe
 
     @Override
     public void onBindViewHolder(@NonNull FriendReqCardHolder holder, int position) {
+
         try {
+            System.out.println("DATA: " + mData.get(position) + "  Postition: " + position);
             holder.bind((String) mData.get(position));
         } catch (JSONException e) {
             e.printStackTrace();

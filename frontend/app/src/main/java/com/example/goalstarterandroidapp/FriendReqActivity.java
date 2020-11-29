@@ -2,6 +2,7 @@ package com.example.goalstarterandroidapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -19,10 +20,11 @@ import com.google.android.gms.tasks.Task;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class FriendReqActivity extends AppCompatActivity {
 
-    private static final String FRIENDREQLISTURL = "http://52.188.108.13:3000/home/friendslist/";
+    private static final String FRIENDREQLISTURL = "http://52.188.108.13:3000/home/pending/";
     private FriendsReqRecycleViewAdapter mFriendsReqAdapter;
     private RecyclerView mRecyclerView;
 
@@ -36,7 +38,17 @@ public class FriendReqActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Context currentContext = this;
-        String requestURL = FRIENDREQLISTURL + "userid";
+
+
+        String userInfo = getIntent().getStringExtra("userInfo");
+        String userid = null;
+        try {
+            JSONObject data = new JSONObject(userInfo);
+            userid = data.getString("userid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String requestURL = FRIENDREQLISTURL + userid;
 
         RequestQueue queue = Volley.newRequestQueue(currentContext);
 
@@ -50,7 +62,12 @@ public class FriendReqActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        System.out.println("Friend REQ LIST" + responseArray);
                         mFriendsReqAdapter = new FriendsReqRecycleViewAdapter(currentContext, responseArray);
+                        mRecyclerView = findViewById(R.id.recycler_view_friendreq_activity);
+                        mRecyclerView.setLayoutManager(new LinearLayoutManager(currentContext));
+                        BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int)(16 * getResources().getDisplayMetrics().density));
+                        mRecyclerView.addItemDecoration(bottomOffsetDecoration);
                         mRecyclerView.setAdapter(mFriendsReqAdapter);
                     }
                 }, new Response.ErrorListener() {

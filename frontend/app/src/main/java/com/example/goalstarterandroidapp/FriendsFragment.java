@@ -1,5 +1,6 @@
 package com.example.goalstarterandroidapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -103,6 +104,7 @@ public class FriendsFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        System.out.println("Friends LIST" + responseArray);
                         mFriendsAdapter = new FriendsRecycleViewAdapter(parentActivity, responseArray);
                         myFriendsFragment.mRecyclerView.setAdapter(mFriendsAdapter);
                     }
@@ -121,6 +123,18 @@ public class FriendsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
+
+        // button to view friend requests
+        view.findViewById(R.id.fab_friend_req_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FriendReqActivity.class);
+                // get user info
+                String userInfo = parentActivity.getIntent().getStringExtra("userInfo");
+                intent.putExtra("userInfo", userInfo);
+                parentActivity.startActivityForResult(intent, 0);
+            }
+        });
 
         // recycler view
         mRecyclerView = view.findViewById(R.id.recycler_view_friends_fragment);

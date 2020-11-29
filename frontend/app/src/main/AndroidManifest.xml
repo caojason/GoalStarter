@@ -19,6 +19,9 @@
             android:name=".GoalDetailActivity"
             android:parentActivityName=".HostActivity" />
         <activity
+            android:name=".FriendReqActivity"
+            android:parentActivityName=".HostActivity" />
+        <activity
             android:name=".CreateGoalActivity"
             android:parentActivityName=".HostActivity" />
         <activity android:name=".HostActivity" />
