@@ -136,6 +136,18 @@ public class FriendsFragment extends Fragment {
             }
         });
 
+        // button to send friend requests
+        view.findViewById(R.id.fab_add_friends_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SendFriendReqActivity.class);
+                // get user info
+                String userInfo = parentActivity.getIntent().getStringExtra("userInfo");
+                intent.putExtra("userInfo", userInfo);
+                parentActivity.startActivityForResult(intent, 0);
+            }
+        });
+
         // recycler view
         mRecyclerView = view.findViewById(R.id.recycler_view_friends_fragment);
         // set layout manager for recycler view

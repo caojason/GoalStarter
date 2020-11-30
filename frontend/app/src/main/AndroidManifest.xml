@@ -12,14 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoalStarterAndroidApp"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".CommentActivity"
-            android:parentActivityName=".HostActivity"/>
+            android:parentActivityName=".HostActivity" />
         <activity
             android:name=".GoalDetailActivity"
             android:parentActivityName=".HostActivity" />
         <activity
             android:name=".FriendReqActivity"
+            android:parentActivityName=".HostActivity" />
+        <activity
+            android:name=".SendFriendReqActivity"
             android:parentActivityName=".HostActivity" />
         <activity
             android:name=".CreateGoalActivity"
