@@ -43,10 +43,9 @@ import static org.hamcrest.Matchers.is;
 @RunWith(AndroidJUnit4.class)
 public class UITests {
 
-    private final static String INTENTINFO = "{\"method\":\"Post\",\"idToken\":\"eyJhbGciOiJSUzI1NiIsImtpZCI6ImQ5NDZiMTM3NzM3Yjk3MzczOGU1Mjg2YzIwOGI2NmU3YTM5ZWU3YzEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI1MzQ4OTU1MzgxNTctc3UxMG80a2gyZ2N0OWVsZ2FhZmpnOW1uOTVmNWhsbW4uYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI1MzQ4OTU1MzgxNTctMTdvMjJyM3RxN2ZuNmc2cG5ob2UwcnBsNHFza3E1bmcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTQ5NjI1NTQ3NDQ5MDcyNjk3MTEiLCJlbWFpbCI6ImFsYW4uc2h1eWFvd2VuQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiU2h1eWFvIHdlbiIsInBpY3R1cmUiOiJodHRwczovL2xoNC5nb29nbGV1c2VyY29udGVudC5jb20vLW1IVHhRU0M3TkpzL0FBQUFBQUFBQUFJL0FBQUFBQUFBQUFBL0FNWnV1Y2xGQ0xLRDFTQXdwX25KTHM2MTBaY3BHemhGWWcvczk2LWMvcGhvdG8uanBnIiwiZ2l2ZW5fbmFtZSI6IlNodXlhbyIsImZhbWlseV9uYW1lIjoid2VuIiwibG9jYWxlIjoiZW4tR0IiLCJpYXQiOjE2MDU1ODA0MjUsImV4cCI6MTYwNTU4NDAyNX0.DpDY8ILR2MU2yLe5PBFIk6gYQNhZkfLda31JXfMDv0gow0eYIuTf3N9WDXLr-Grj1WJArgUDr8Zqdzll_xdc_VV-EBczXjsMaDIU3_HLiHsSB2aHziVl5w9ivkmQvvBJQdOyNAMKrlamEHUzSl1uey3vX1mPjr1kjJ9xaakP4T_lqMVy1TjAuDtI-BFgx_YMCl9xJKybeCuPtCyIJ7SlXmU2uGEXT0xO4fphxxavYOQx-5jkgkg8BCxfAhZaADrPdgCSIRgpp3xyDbOtXFZvUEU5O26lmqFkrCchoxyAfEyiQHL72OhtAg-WUYmu4mgX4vBuTxHtni1_f8AOX9HOBw\",\"userid\":\"114962554744907269711\",\"name\":\"Ben\",\"email\":\"\"}";
+    private final static String INTENTINFO = "{\"method\":\"Post\",\"idToken\":\"\",\"userid\":\"404\",\"name\":\"GoalStarter Test\",\"email\":\"goalstarter@gmail.com\"}";
     static Intent intent = new Intent(ApplicationProvider.getApplicationContext(), HostActivity.class);
     static{
-
         intent.putExtra("userInfo", INTENTINFO);
     }
 
@@ -89,7 +88,7 @@ public class UITests {
         recyclerView2.check(matches(isDisplayed()));
 
         ViewInteraction bottomNavigationItemView3 = onView(
-                allOf(withId(R.id.navigation_profile), withContentDescription("Profile"),
+                allOf(withId(R.id.navigation_friends), withContentDescription("My Friends"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.nav_view),
@@ -98,12 +97,11 @@ public class UITests {
                         isDisplayed()));
         bottomNavigationItemView3.perform(click());
 
-        ViewInteraction viewGroup = onView(
-                allOf(withId(R.id.frameLayout),
-                        withParent(allOf(withId(R.id.nav_host_fragment),
-                                withParent(withId(R.id.container)))),
+        ViewInteraction recyclerView3 = onView(
+                allOf(withId(R.id.recycler_view_friends_fragment),
+                        withParent(withParent(withId(R.id.nav_host_fragment))),
                         isDisplayed()));
-        viewGroup.check(matches(isDisplayed()));
+        recyclerView3.check(matches(isDisplayed()));
     }
 
     @Test
@@ -176,16 +174,6 @@ public class UITests {
 
     @Test
     public void createGoalTest() {
-//        ViewInteraction gc = onView(
-//                allOf(withText("Sign in"),
-//                        childAtPosition(
-//                                allOf(withId(R.id.sign_in_button),
-//                                        childAtPosition(
-//                                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-//                                                0)),
-//                                0),
-//                        isDisplayed()));
-//        gc.perform(click());
 
         ViewInteraction bottomNavigationItemView = onView(
                 allOf(withId(R.id.navigation_my_goals), withContentDescription("My Goals"),
