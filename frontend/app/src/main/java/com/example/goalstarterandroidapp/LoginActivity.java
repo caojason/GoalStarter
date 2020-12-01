@@ -56,11 +56,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 signIn();
-//                switch (view.getId()) {
-//                    case R.id.sign_in_button:
-//                        signIn();
-//                        break;
-//                }
             }
         });
 
