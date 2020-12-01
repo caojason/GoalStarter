@@ -52,6 +52,7 @@ public class FriendReqActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(currentContext);
 
+        String finalUserid = userid;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, requestURL,
                 new Response.Listener<String>() {
                     @Override
@@ -63,7 +64,7 @@ public class FriendReqActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         System.out.println("Friend REQ LIST" + responseArray);
-                        mFriendsReqAdapter = new FriendsReqRecycleViewAdapter(currentContext, responseArray);
+                        mFriendsReqAdapter = new FriendsReqRecycleViewAdapter(currentContext, responseArray, finalUserid);
                         mRecyclerView = findViewById(R.id.recycler_view_friendreq_activity);
                         mRecyclerView.setLayoutManager(new LinearLayoutManager(currentContext));
                         BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int)(16 * getResources().getDisplayMetrics().density));
