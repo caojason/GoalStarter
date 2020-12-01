@@ -83,7 +83,6 @@ public class SendFriendReqActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(getBaseContext(), "Successfully sent friend request!", Toast.LENGTH_SHORT).show();
-                        finish();
                     }
                 },
                 new Response.ErrorListener()
