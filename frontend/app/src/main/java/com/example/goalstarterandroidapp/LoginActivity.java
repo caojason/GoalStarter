@@ -186,6 +186,8 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(String response) {
                                     Log.d(TAG, "Successfully sent firebase token");
+                                    Log.d(TAG, "URL used: " + url);
+                                    Log.d(TAG, "body: " + requestBody.toString());
                                 }
                             }, new Response.ErrorListener() {
                                 @Override
@@ -196,8 +198,8 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }){
                                 @Override
-                                public byte[] getBody(){
-                                    return requestBody.toString().getBytes();
+                                public Map<String, String> getParams(){
+                                    return requestBody;
                                 }
                             };
 
