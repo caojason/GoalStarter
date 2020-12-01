@@ -112,36 +112,6 @@ public class LoginActivity extends AppCompatActivity {
             RequestQueue queue = Volley.newRequestQueue(this);
             String url ="http://52.188.108.13:3000/login";
 
-//            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-//                        @Override
-//                        public void onResponse(String response) {
-//                            int userid = 0;
-//                            try {
-//                                Log.d(TAG, response);
-//                                JSONObject id = new JSONObject(response);
-//                                userid = id.getInt("userid");
-//
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                            System.out.println("USERID: " + userid);
-//                            updateUI(account,userid);
-//                        }
-//            }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    System.out.println("Error: " + error.getMessage());
-//                }
-//            }){
-//                @Override
-//                public Map<String, String> getParams()
-//                {
-//                    Map<String, String>  params = new HashMap<String, String>();
-//                    params.put("idToken", idToken);
-//                    return params;
-//                }
-//            };
-
             Map<String, String>  params = new HashMap<String, String>();
             params.put("idToken", idToken);
 
