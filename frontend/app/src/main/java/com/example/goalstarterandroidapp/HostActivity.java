@@ -44,12 +44,14 @@ public class HostActivity extends AppCompatActivity {
     private RequestQueue mQueue;
     // Feed fragment data
     private static final String FEEDURL = "http://52.188.108.13:3000/home/";
-    private GoalCardRecycleViewAdapter mFeedAdapter;
+    public GoalCardRecycleViewAdapter mFeedAdapter;
     private Parcelable mFeedLayoutManager;
+    private boolean feedNeedsUpdate;
     // My Goals fragment data
     private static final String MYGOALSURL = "http://52.188.108.13:3000/home/view_goals/";
     private GoalCardRecycleViewAdapter mMyGoalsAdapter;
     private Parcelable mMyGoalsLayoutManager;
+    private boolean myGoalsNeedsUpdate;
     // Google sign in used for log out
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -60,6 +62,8 @@ public class HostActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
 
         mContext = this;
+        feedNeedsUpdate = false;
+        myGoalsNeedsUpdate = false;
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -124,8 +128,29 @@ public class HostActivity extends AppCompatActivity {
                 });
                 // send request
                 mQueue.add(getFeed);
-            } else {
+            } else { // feed adapter exists
                 feedFragment.attachAdapter(mFeedAdapter);
+                // update adapter if needed
+                if(feedNeedsUpdate){
+                    JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            mFeedAdapter = new GoalCardRecycleViewAdapter(mContext, response, userInfoJSON, 0); // adapter type is 0 for feed
+                            feedFragment.attachAdapter(mFeedAdapter);
+                            feedNeedsUpdate = false;
+                            Log.d(TAG, "Successfully got feed data: \n"+ response.toString());
+                        }
+
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d(TAG, "Did not get JSON array");
+                            error.printStackTrace();
+                        }
+                    });
+                    // send request
+                    mQueue.add(getFeed);
+                }
             }
         }catch (JSONException e) {
             e.printStackTrace();
@@ -178,8 +203,30 @@ public class HostActivity extends AppCompatActivity {
                 });
                 // send request
                 mQueue.add(getMyGoals);
-            } else {
+            } else { // adapter already exists
                 myGoalsFragment.attachAdapter(mMyGoalsAdapter);
+                // update adapter if needed
+                if(myGoalsNeedsUpdate){
+                    JsonArrayRequest getMyGoals = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            Log.d(TAG, "Got my goals");
+                            mMyGoalsAdapter = new GoalCardRecycleViewAdapter(mContext, response, userInfoJSON, 1); // adapter type is 1 for my goals
+                            myGoalsFragment.attachAdapter(mMyGoalsAdapter);
+                            myGoalsNeedsUpdate = false;
+                            Log.d(TAG, response.toString());
+                        }
+
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d(TAG, "Did not get JSON array");
+                            error.printStackTrace();
+                        }
+                    });
+                    // send request
+                    mQueue.add(getMyGoals);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -201,7 +248,7 @@ public class HostActivity extends AppCompatActivity {
 
         // request codes:
         // 0: creating a new goal
-        // 1: adding a comment to a goal
+        // 1: adding a comment to a goal or changing milestones
 
         // handle creating a goal
         if (requestCode == 0 && resultCode == RESULT_OK) {
@@ -213,6 +260,7 @@ public class HostActivity extends AppCompatActivity {
                 if (mMyGoalsAdapter.getData() != null && mMyGoalsAdapter.getData() != null) {
                     mMyGoalsAdapter.getData().put(newGoal);
                     mMyGoalsAdapter.notifyDataSetChanged();
+                    feedNeedsUpdate = true;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -229,13 +277,16 @@ public class HostActivity extends AppCompatActivity {
                 Log.d(TAG, "failed to parse goal string into a goal");
             }
             // get the adapter that we need to update
+            // 0 is feed, 1 is my goals
             int source = data.getIntExtra("adapter type", -1);
             GoalCardRecycleViewAdapter adapter = null;
             if(source == 0){
                 adapter = mFeedAdapter;
+                myGoalsNeedsUpdate = true;
             }
             else if(source == 1){
                 adapter = mMyGoalsAdapter;
+                feedNeedsUpdate = true;
             }
             else{
                 Log.d(TAG, "cannot determine which adapter to update");
@@ -286,6 +337,14 @@ public class HostActivity extends AppCompatActivity {
                 System.out.println("ERROR LOGGING OUT");
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void feedNeedsUpdate(){
+        feedNeedsUpdate = true;
+    }
+
+    public void myGoalSNeedsUpdate(){
+        myGoalsNeedsUpdate = true;
     }
 
 }

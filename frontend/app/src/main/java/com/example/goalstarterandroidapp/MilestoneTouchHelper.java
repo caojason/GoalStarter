@@ -99,6 +99,7 @@ public class MilestoneTouchHelper extends ItemTouchHelper.Callback {
                         mGoal.put("index", newIndex);
                         ((MilestoneRecycleViewAdapter.MilestoneViewHolder)viewHolder).complete();
                         mAdapter.notifyDataSetChanged();
+                        Toast.makeText(mContext, "Successfully completed milestone", Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

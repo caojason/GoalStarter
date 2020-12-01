@@ -56,7 +56,9 @@ public class MyGoalsFragment extends Fragment {
         }
 
         // set recycler view adapter
-        parentActivity.getMyGoalsAdapter(); //TODO: uncomment this once the backend is set up and correct URL is added
+        parentActivity.getMyGoalsAdapter();
+
+
 
         // add spacing to the bottom of recycler view (80dp)
         BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int)(80 * getResources().getDisplayMetrics().density));
@@ -78,5 +80,9 @@ public class MyGoalsFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void swapAdapter(GoalCardRecycleViewAdapter adapter){
+        mRecyclerView.swapAdapter(adapter, true);
     }
 }

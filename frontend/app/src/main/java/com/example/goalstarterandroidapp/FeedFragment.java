@@ -103,4 +103,8 @@ public class FeedFragment extends Fragment {
     public void attachAdapter(GoalCardRecycleViewAdapter adapter){
         mRecyclerView.setAdapter(adapter);
     }
+
+    public void swapAdapter(GoalCardRecycleViewAdapter adapter){
+        mRecyclerView.swapAdapter(adapter, true);
+    }
 }
