@@ -55,7 +55,7 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
         try {
             JSONObject goal = (JSONObject) mData.get(position);
             JSONArray comments = goal.getJSONArray("comments");
-            if(comments.get(0).equals("NULL")){
+            if(comments.length() > 0 && comments.get(0).equals("NULL")){
                 comments.remove(0);
             }
             holder.bind((JSONObject) mData.get(position));

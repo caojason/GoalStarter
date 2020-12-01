@@ -71,7 +71,7 @@ public class CommentActivity extends AppCompatActivity {
             // get the comments from goal
             jsonGoal = new JSONObject(goal);
             JSONArray comments = jsonGoal.getJSONArray("comments");
-            if(comments.getString(0).equals("NULL")){
+            if(comments.length() > 0 && comments.getString(0).equals("NULL")){
                 comments.remove(0);
             }
             // set adapter to custom adapter using the comment.xml layout
