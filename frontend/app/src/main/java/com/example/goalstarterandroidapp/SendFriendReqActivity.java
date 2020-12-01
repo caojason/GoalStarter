@@ -92,6 +92,7 @@ public class SendFriendReqActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         // error
                         error.printStackTrace();
+                        System.out.println(error.getMessage());
                         Toast.makeText(getBaseContext(), "Send Friend Request failed", Toast.LENGTH_SHORT).show();
                     }
                 }
