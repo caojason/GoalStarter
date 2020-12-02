@@ -130,26 +130,25 @@ public class HostActivity extends AppCompatActivity {
             } else { // feed adapter exists
                 feedFragment.attachAdapter(mFeedAdapter);
                 // update adapter if needed
-                if(feedNeedsUpdate){
-                    JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            mFeedAdapter = new GoalCardRecycleViewAdapter(mContext, response, userInfoJSON, 0); // adapter type is 0 for feed
-                            feedFragment.attachAdapter(mFeedAdapter);
-                            feedNeedsUpdate = false;
-                            Log.d(TAG, "Successfully got feed data: \n"+ response.toString());
-                        }
+                JsonArrayRequest getFeed = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        mFeedAdapter = new GoalCardRecycleViewAdapter(mContext, response, userInfoJSON, 0); // adapter type is 0 for feed
+                        feedFragment.attachAdapter(mFeedAdapter);
+                        feedNeedsUpdate = false;
+                        Log.d(TAG, "Successfully got feed data: \n"+ response.toString());
+                    }
 
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "Did not get JSON array");
-                            error.printStackTrace();
-                        }
-                    });
-                    // send request
-                    mQueue.add(getFeed);
-                }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Did not get JSON array");
+                        error.printStackTrace();
+                    }
+                });
+                // send request
+                mQueue.add(getFeed);
+
             }
         }catch (JSONException e) {
             e.printStackTrace();
@@ -205,27 +204,26 @@ public class HostActivity extends AppCompatActivity {
             } else { // adapter already exists
                 myGoalsFragment.attachAdapter(mMyGoalsAdapter);
                 // update adapter if needed
-                if(myGoalsNeedsUpdate){
-                    JsonArrayRequest getMyGoals = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            Log.d(TAG, "Got my goals");
-                            mMyGoalsAdapter = new GoalCardRecycleViewAdapter(mContext, response, userInfoJSON, 1); // adapter type is 1 for my goals
-                            myGoalsFragment.attachAdapter(mMyGoalsAdapter);
-                            myGoalsNeedsUpdate = false;
-                            Log.d(TAG, response.toString());
-                        }
+                JsonArrayRequest getMyGoals = new JsonArrayRequest(Request.Method.GET, requestURL, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(TAG, "Got my goals");
+                        mMyGoalsAdapter = new GoalCardRecycleViewAdapter(mContext, response, userInfoJSON, 1); // adapter type is 1 for my goals
+                        myGoalsFragment.attachAdapter(mMyGoalsAdapter);
+                        myGoalsNeedsUpdate = false;
+                        Log.d(TAG, response.toString());
+                    }
 
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d(TAG, "Did not get JSON array");
-                            error.printStackTrace();
-                        }
-                    });
-                    // send request
-                    mQueue.add(getMyGoals);
-                }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Did not get JSON array");
+                        error.printStackTrace();
+                    }
+                });
+                // send request
+                mQueue.add(getMyGoals);
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
