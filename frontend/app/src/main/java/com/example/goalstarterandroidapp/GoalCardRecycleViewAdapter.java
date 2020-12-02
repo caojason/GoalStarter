@@ -154,7 +154,6 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
                 // get number of likes
                 int mPosition = getAdapterPosition();
                 JSONObject goal = (JSONObject) mData.get(mPosition);
-                int likes = goal.getInt("likes");
                 // get id of current user
                 String userid = mUserInfo.getString("userid");
                 // url for HTTP request

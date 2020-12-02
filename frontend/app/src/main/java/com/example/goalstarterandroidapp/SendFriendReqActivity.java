@@ -60,7 +60,7 @@ public class SendFriendReqActivity extends AppCompatActivity {
         });
     }
 
-    public void SendFriendReq(View view){
+    public void sendFriendReq(View view){
         JSONObject postData = new JSONObject();
         String requestBody = null;
 
