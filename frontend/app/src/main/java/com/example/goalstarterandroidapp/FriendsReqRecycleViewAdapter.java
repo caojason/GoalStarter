@@ -1,9 +1,6 @@
 package com.example.goalstarterandroidapp;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +17,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.goalstarterandroidapp.databinding.FriendListBinding;
 import com.example.goalstarterandroidapp.databinding.FriendreqListBinding;
 
 import org.json.JSONArray;
