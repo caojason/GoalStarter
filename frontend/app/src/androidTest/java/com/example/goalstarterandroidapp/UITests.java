@@ -200,19 +200,19 @@ public class UITests {
 
         ViewInteraction textInputEditText = onView(
                 allOf(withId(R.id.edit_text_goal_title)));
-        textInputEditText.perform(scrollTo(), replaceText("Money"), closeSoftKeyboard());
+        textInputEditText.perform(scrollTo(), replaceText("Test Goal"), closeSoftKeyboard());
 
         ViewInteraction textInputEditText2 = onView(
                 allOf(withId(R.id.edit_text_goal_content)));
-        textInputEditText2.perform(scrollTo(), replaceText("Money"), closeSoftKeyboard());
+        textInputEditText2.perform(scrollTo(), replaceText("Test Goal Content"), closeSoftKeyboard());
 
         ViewInteraction textInputEditText3 = onView(
                 allOf(withId(R.id.edit_text_goal_tag)));
-        textInputEditText3.perform(scrollTo(), replaceText("Money"), closeSoftKeyboard());
+        textInputEditText3.perform(scrollTo(), replaceText("Test"), closeSoftKeyboard());
 
         ViewInteraction textInputEditText4 = onView(
                 allOf(withId(R.id.edit_text_goal_milestone1)));
-        textInputEditText4.perform(scrollTo(), replaceText("Money"), closeSoftKeyboard());
+        textInputEditText4.perform(scrollTo(), replaceText("Test Milestone 1"), closeSoftKeyboard());
 
         ViewInteraction materialTextView = onView(
                 allOf(withId(R.id.milestone1_date)));
@@ -224,7 +224,7 @@ public class UITests {
 
         ViewInteraction textInputEditText5 = onView(
                 allOf(withId(R.id.edit_text_goal_milestone2)));
-        textInputEditText5.perform(scrollTo(), replaceText("Money"), closeSoftKeyboard());
+        textInputEditText5.perform(scrollTo(), replaceText("Test Milestone 2"), closeSoftKeyboard());
 
         ViewInteraction materialTextView2 = onView(
                 allOf(withId(R.id.milestone2_date)));
@@ -241,7 +241,7 @@ public class UITests {
 
         ViewInteraction textInputEditText6 = onView(
                 allOf(withId(R.id.edit_text_goal_milestone3)));
-        textInputEditText6.perform(scrollTo(), replaceText("Money"), closeSoftKeyboard());
+        textInputEditText6.perform(scrollTo(), replaceText("Test Milestone 3"), closeSoftKeyboard());
 
         ViewInteraction materialTextView3 = onView(
                 allOf(withId(R.id.milestone3_date)));
