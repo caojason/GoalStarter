@@ -35,6 +35,9 @@ public class SendFriendReqActivity extends AppCompatActivity {
         mBinding = ActivitySendFriendReqBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
+        setSupportActionBar(mBinding.toolbarAddFriends);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mRequestQueue = Volley.newRequestQueue(this);
 
         mBinding.editTextFriendEmail.addTextChangedListener(new TextWatcher() {
@@ -113,5 +116,11 @@ public class SendFriendReqActivity extends AppCompatActivity {
         };
 
         mRequestQueue.add(postRequest);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

@@ -15,7 +15,7 @@ tools:context=".FriendReqActivity">
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_create_goal"
+            android:id="@+id/toolbar_friend_request"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

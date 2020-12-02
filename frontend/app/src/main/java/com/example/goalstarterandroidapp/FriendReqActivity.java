@@ -26,12 +26,17 @@ public class FriendReqActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_req);
+
+        setSupportActionBar(findViewById(R.id.toolbar_friend_request));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Context currentContext = this;
+
+
 
         final RecyclerView[] mRecyclerView = new RecyclerView[1];
         final FriendsReqRecycleViewAdapter[] mFriendsReqAdapter = new FriendsReqRecycleViewAdapter[1];
@@ -77,5 +82,11 @@ public class FriendReqActivity extends AppCompatActivity {
 
         queue.add(stringRequest);
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
