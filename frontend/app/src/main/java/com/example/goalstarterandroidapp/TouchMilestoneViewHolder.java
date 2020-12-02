@@ -6,7 +6,7 @@ package com.example.goalstarterandroidapp;
  * view holder
  * have your view holder implement these methods for MilestoneTouchHelper to work
  */
-public interface MilestoneViewHolder {
+public interface TouchMilestoneViewHolder {
     /**
      * Called when the view holder is moved
      */

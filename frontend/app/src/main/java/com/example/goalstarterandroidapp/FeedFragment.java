@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FeedFragment extends Fragment {
 
-    private static final String FRIENDLISTURL = "http://52.188.108.13:3000/friendslist/";
-
     private RecyclerView mRecyclerView;
 
     // parent activity

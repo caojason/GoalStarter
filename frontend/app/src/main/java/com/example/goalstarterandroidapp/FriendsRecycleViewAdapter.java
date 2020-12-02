@@ -14,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 public class FriendsRecycleViewAdapter extends RecyclerView.Adapter<FriendsRecycleViewAdapter.FriendCardHolder>{
-    private static final String LOGTAG = "FRIEND RECYCLER VIEW";
     private final Context mContext;
     private final JSONArray mData;
 

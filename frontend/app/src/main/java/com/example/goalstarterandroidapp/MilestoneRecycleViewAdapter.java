@@ -56,7 +56,7 @@ public class MilestoneRecycleViewAdapter extends RecyclerView.Adapter<MilestoneR
         return mData;
     }
 
-    class MilestoneViewHolder extends RecyclerView.ViewHolder implements com.example.goalstarterandroidapp.MilestoneViewHolder {
+    class MilestoneViewHolder extends RecyclerView.ViewHolder implements TouchMilestoneViewHolder {
         private final MilestoneBinding mBinding;
 
         public MilestoneViewHolder(@NonNull View itemView) {

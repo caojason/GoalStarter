@@ -41,7 +41,7 @@ import static org.hamcrest.Matchers.is;
 public class UITests {
 
     private final static String INTENTINFO = "{\"method\":\"Post\",\"idToken\":\"\",\"userid\":\"404\",\"name\":\"GoalStarter Test\",\"email\":\"goalstarter@gmail.com\"}";
-    static Intent intent = new Intent(ApplicationProvider.getApplicationContext(), HostActivity.class);
+    private static Intent intent = new Intent(ApplicationProvider.getApplicationContext(), HostActivity.class);
     static{
         intent.putExtra("userInfo", INTENTINFO);
     }
@@ -163,7 +163,7 @@ public class UITests {
         ViewInteraction button = onView(
                 allOf(withText("Sign in"),
                         withParent(allOf(withId(R.id.sign_in_button),
-                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
+                                withParent(IsInstanceOf.<View>instanceOf(ViewGroup.class)))),
                         isDisplayed()));
         button.check(matches(isDisplayed()));
 

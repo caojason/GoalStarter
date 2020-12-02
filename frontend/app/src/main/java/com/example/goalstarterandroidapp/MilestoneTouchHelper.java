@@ -132,8 +132,8 @@ public class MilestoneTouchHelper extends ItemTouchHelper.Callback {
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         // We only want the active item
-        if (actionState != ItemTouchHelper.ACTION_STATE_IDLE && viewHolder instanceof MilestoneViewHolder) {
-            MilestoneViewHolder itemViewHolder = (MilestoneViewHolder) viewHolder;
+        if (actionState != ItemTouchHelper.ACTION_STATE_IDLE && viewHolder instanceof TouchMilestoneViewHolder) {
+            TouchMilestoneViewHolder itemViewHolder = (TouchMilestoneViewHolder) viewHolder;
             itemViewHolder.onItemSelected();
         }
 
@@ -144,8 +144,8 @@ public class MilestoneTouchHelper extends ItemTouchHelper.Callback {
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder){
         super.clearView(recyclerView, viewHolder);
 
-        if (viewHolder instanceof MilestoneViewHolder) {
-            MilestoneViewHolder itemViewHolder = (MilestoneViewHolder) viewHolder;
+        if (viewHolder instanceof TouchMilestoneViewHolder) {
+            TouchMilestoneViewHolder itemViewHolder = (TouchMilestoneViewHolder) viewHolder;
             itemViewHolder.onItemClear();
         }
     }

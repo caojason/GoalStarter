@@ -26,15 +26,14 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 public class FriendsReqRecycleViewAdapter extends RecyclerView.Adapter<FriendsReqRecycleViewAdapter.FriendReqCardHolder>{
-    private static final String LOGTAG = "FRIEND RECYCLER VIEW";
     private final Context mContext;
     private final JSONArray mData;
-    private static String userid;
+    private final String mUserid;
 
     FriendsReqRecycleViewAdapter(Context context, JSONArray data, String userid){
         this.mContext = context;
         this.mData = data;
-        this.userid = userid;
+        this.mUserid = userid;
     }
 
     @NonNull
@@ -62,8 +61,8 @@ public class FriendsReqRecycleViewAdapter extends RecyclerView.Adapter<FriendsRe
     class FriendReqCardHolder extends RecyclerView.ViewHolder {
         private final FriendreqListBinding mBinding;
         private RequestQueue mRequestQueue;
-        private final String ACCEPTURL = "http://52.188.108.13:3000/home/confirm_requests/" + userid;
-        private final String DECLINEURL = "http://52.188.108.13:3000/home/deny_requests/" + userid;
+        private final String ACCEPTURL = "http://52.188.108.13:3000/home/confirm_requests/" + mUserid;
+        private final String DECLINEURL = "http://52.188.108.13:3000/home/deny_requests/" + mUserid;
 
         public FriendReqCardHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,7 +97,7 @@ public class FriendsReqRecycleViewAdapter extends RecyclerView.Adapter<FriendsRe
             String requestBody = null;
             try {
                 Data.put("email", email);
-                Data.put("userid", userid);
+                Data.put("userid", mUserid);
                 requestBody = Data.toString();
             } catch (JSONException e) {
                 e.printStackTrace();
