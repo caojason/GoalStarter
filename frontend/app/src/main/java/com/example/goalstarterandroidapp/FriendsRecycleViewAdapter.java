@@ -1,7 +1,6 @@
 package com.example.goalstarterandroidapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.example.goalstarterandroidapp.databinding.FriendListBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class FriendsRecycleViewAdapter extends RecyclerView.Adapter<FriendsRecycleViewAdapter.FriendCardHolder>{
     private static final String LOGTAG = "FRIEND RECYCLER VIEW";

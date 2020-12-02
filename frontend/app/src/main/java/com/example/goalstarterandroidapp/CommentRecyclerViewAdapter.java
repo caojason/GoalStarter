@@ -13,7 +13,6 @@ import com.example.goalstarterandroidapp.databinding.CommentBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecyclerViewAdapter.CommentViewHolder> {
     private static final String TAG = CommentRecyclerViewAdapter.class.getName();
