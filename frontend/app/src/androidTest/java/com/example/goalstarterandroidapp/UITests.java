@@ -334,13 +334,7 @@ public class UITests {
         textInputEditText.perform(replaceText("goalstarter@gmail.com"), closeSoftKeyboard());
 
         ViewInteraction materialButton = onView(
-                allOf(withId(R.id.button_send_request), withText("Send Friend Request"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.cardView),
-                                        0),
-                                1),
-                        isDisplayed()));
+                allOf(withId(R.id.button_send_request), withText("Send Friend Request")));
         materialButton.perform(click());
 
         ViewInteraction textView3 = onView(
