@@ -92,7 +92,7 @@ public class SendFriendReqActivity extends AppCompatActivity {
                         // error
                         error.printStackTrace();
                         System.out.println(error.getMessage());
-                        Toast.makeText(getBaseContext(), "Send Friend Request failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Request Failed: Enter a valid account email", Toast.LENGTH_SHORT).show();
                     }
                 }
         ) {
