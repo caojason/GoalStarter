@@ -297,6 +297,7 @@ public class HostActivity extends AppCompatActivity {
             if(position != -1 && adapter != null && goal != null){
                 try {
                     adapter.getData().put(position, goal);
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.d(TAG, "JSON error, failed to update data in adapter");

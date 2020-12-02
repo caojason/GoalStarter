@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.TextView;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
@@ -286,6 +287,109 @@ public class UITests {
                         isDisplayed()));
         recyclerView2.check(matches(isDisplayed()));
 
+    }
+
+    @Test
+    public void sendFriendReqTest() {
+
+        ViewInteraction bottomNavigationItemView = onView(
+                allOf(withId(R.id.navigation_friends), withContentDescription("My Friends"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0),
+                                2),
+                        isDisplayed()));
+        bottomNavigationItemView.perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withText("My Friends"),
+                        withParent(allOf(withId(R.id.toolbar_host),
+                                withParent(withId(R.id.app_bar_layout_host)))),
+                        isDisplayed()));
+        textView.check(matches(withText("My Friends")));
+
+        ViewInteraction extendedFloatingActionButton = onView(
+                allOf(withId(R.id.fab_add_friends_button), withText("Add Friends"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_host_fragment),
+                                        0),
+                                1),
+                        isDisplayed()));
+        extendedFloatingActionButton.perform(click());
+
+        ViewInteraction textView2 = onView(
+                allOf(withText("Add Friends"),
+                        withParent(allOf(withId(R.id.toolbar_add_friends),
+                                withParent(withId(R.id.appBarLayout)))),
+                        isDisplayed()));
+        textView2.check(matches(withText("Add Friends")));
+
+        ViewInteraction button = onView(
+                allOf(withId(R.id.button_send_request), withText("SEND FRIEND REQUEST"),
+                        withParent(withParent(withId(R.id.cardView))),
+                        isDisplayed()));
+        button.check(matches(isDisplayed()));
+
+        ViewInteraction textInputEditText = onView(
+                allOf(withId(R.id.edit_text_friend_email),
+                        isDisplayed()));
+        textInputEditText.perform(replaceText("goalstarter@gmail.com"), closeSoftKeyboard());
+
+        ViewInteraction materialButton = onView(
+                allOf(withId(R.id.button_send_request), withText("Send Friend Request"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.cardView),
+                                        0),
+                                1),
+                        isDisplayed()));
+        materialButton.perform(click());
+
+        ViewInteraction textView3 = onView(
+                allOf(withText("Add Friends"),
+                        withParent(allOf(withId(R.id.toolbar_add_friends),
+                                withParent(withId(R.id.appBarLayout)))),
+                        isDisplayed()));
+        textView3.check(matches(withText("Add Friends")));
+    }
+
+    @Test
+    public void myFriendReqActivityTest() {
+        ViewInteraction bottomNavigationItemView = onView(
+                allOf(withId(R.id.navigation_friends), withContentDescription("My Friends"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0),
+                                2),
+                        isDisplayed()));
+        bottomNavigationItemView.perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withText("My Friends"),
+                        withParent(allOf(withId(R.id.toolbar_host),
+                                withParent(withId(R.id.app_bar_layout_host)))),
+                        isDisplayed()));
+        textView.check(matches(withText("My Friends")));
+
+        ViewInteraction extendedFloatingActionButton = onView(
+                allOf(withId(R.id.fab_friend_req_button), withText("Check Friend Requests"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.nav_host_fragment),
+                                        0),
+                                2),
+                        isDisplayed()));
+        extendedFloatingActionButton.perform(click());
+
+        ViewInteraction textView2 = onView(
+                allOf(withText("My Friend Requests"),
+                        withParent(allOf(withId(R.id.toolbar_create_goal),
+                                withParent(withId(R.id.appBarLayout)))),
+                        isDisplayed()));
+        textView2.check(matches(withText("My Friend Requests")));
     }
 
     private static Matcher<View> childAtPosition(
