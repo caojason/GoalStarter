@@ -171,12 +171,6 @@ public class GoalCardRecycleViewAdapter extends RecyclerView.Adapter<GoalCardRec
                             goal.put("likes", likes);
                             curAdapter.notifyDataSetChanged();
                             Log.d(TAG, "like put request success");
-                            if(mAdapterType == 0){
-                                ((HostActivity)mContext).myGoalSNeedsUpdate();
-                            }
-                            else if(mAdapterType == 1){
-                                ((HostActivity)mContext).feedNeedsUpdate();
-                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

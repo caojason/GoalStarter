@@ -44,12 +44,10 @@ public class HostActivity extends AppCompatActivity {
     private static final String FEEDURL = "http://52.188.108.13:3000/home/";
     public GoalCardRecycleViewAdapter mFeedAdapter;
     private Parcelable mFeedLayoutManager;
-    private boolean feedNeedsUpdate;
     // My Goals fragment data
     private static final String MYGOALSURL = "http://52.188.108.13:3000/home/view_goals/";
     private GoalCardRecycleViewAdapter mMyGoalsAdapter;
     private Parcelable mMyGoalsLayoutManager;
-    private boolean myGoalsNeedsUpdate;
     // Google sign in used for log out
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -61,8 +59,6 @@ public class HostActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
 
         mContext = this;
-        feedNeedsUpdate = false;
-        myGoalsNeedsUpdate = false;
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -135,7 +131,6 @@ public class HostActivity extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         mFeedAdapter = new GoalCardRecycleViewAdapter(mContext, response, userInfoJSON, 0); // adapter type is 0 for feed
                         feedFragment.attachAdapter(mFeedAdapter);
-                        feedNeedsUpdate = false;
                         Log.d(TAG, "Successfully got feed data: \n"+ response.toString());
                     }
 
@@ -210,7 +205,6 @@ public class HostActivity extends AppCompatActivity {
                         Log.d(TAG, "Got my goals");
                         mMyGoalsAdapter = new GoalCardRecycleViewAdapter(mContext, response, userInfoJSON, 1); // adapter type is 1 for my goals
                         myGoalsFragment.attachAdapter(mMyGoalsAdapter);
-                        myGoalsNeedsUpdate = false;
                         Log.d(TAG, response.toString());
                     }
 
@@ -257,7 +251,6 @@ public class HostActivity extends AppCompatActivity {
                 if (mMyGoalsAdapter.getData() != null && mMyGoalsAdapter.getData() != null) {
                     mMyGoalsAdapter.getData().put(newGoal);
                     mMyGoalsAdapter.notifyDataSetChanged();
-                    feedNeedsUpdate = true;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -279,11 +272,9 @@ public class HostActivity extends AppCompatActivity {
             GoalCardRecycleViewAdapter adapter = null;
             if(source == 0){
                 adapter = mFeedAdapter;
-                myGoalsNeedsUpdate = true;
             }
             else if(source == 1){
                 adapter = mMyGoalsAdapter;
-                feedNeedsUpdate = true;
             }
             else{
                 Log.d(TAG, "cannot determine which adapter to update");
@@ -337,12 +328,6 @@ public class HostActivity extends AppCompatActivity {
         }
     }
 
-    public void feedNeedsUpdate(){
-        feedNeedsUpdate = true;
-    }
 
-    public void myGoalSNeedsUpdate(){
-        myGoalsNeedsUpdate = true;
-    }
 
 }
