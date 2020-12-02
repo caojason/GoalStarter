@@ -30,7 +30,6 @@ import org.json.JSONObject;
 public class FriendsFragment extends Fragment {
 
     private static final String FRIENDLISTURL = "http://52.188.108.13:3000/home/friendslist/";
-    private FriendsRecycleViewAdapter mFriendsAdapter;
     private RecyclerView mRecyclerView;
 
     // parent activity
@@ -43,6 +42,7 @@ public class FriendsFragment extends Fragment {
 
         NavHostFragment navHostFragment = (NavHostFragment) parentActivity.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         FriendsFragment myFriendsFragment = (FriendsFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+        final FriendsRecycleViewAdapter[] mFriendsAdapter = new FriendsRecycleViewAdapter[1];
 
         String userInfo = parentActivity.getIntent().getStringExtra("userInfo");
         String userid = null;
@@ -67,8 +67,8 @@ public class FriendsFragment extends Fragment {
                             e.printStackTrace();
                         }
                         System.out.println("Friends LIST" + responseArray);
-                        mFriendsAdapter = new FriendsRecycleViewAdapter(parentActivity, responseArray);
-                        myFriendsFragment.mRecyclerView.setAdapter(mFriendsAdapter);
+                        mFriendsAdapter[0] = new FriendsRecycleViewAdapter(parentActivity, responseArray);
+                        myFriendsFragment.mRecyclerView.setAdapter(mFriendsAdapter[0]);
                     }
                 }, new Response.ErrorListener() {
             @Override

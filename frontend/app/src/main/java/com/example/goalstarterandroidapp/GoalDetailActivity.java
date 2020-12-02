@@ -18,7 +18,6 @@ import org.json.JSONObject;
 
 public class GoalDetailActivity extends AppCompatActivity {
     private static final String TAG = GoalDetailActivity.class.getSimpleName();
-    private ActivityGoalDetailBinding mBinding;
     private JSONObject mGoal;
     private int position;
     private int source;
@@ -26,6 +25,7 @@ public class GoalDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityGoalDetailBinding mBinding;
         mBinding = ActivityGoalDetailBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 

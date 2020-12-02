@@ -39,7 +39,6 @@ import org.json.JSONObject;
 public class HostActivity extends AppCompatActivity {
     private static final String TAG = HostActivity.class.getSimpleName();
     private Context mContext;
-    private ActivityHostBinding mBinding;
     private RequestQueue mQueue;
     // Feed fragment data
     private static final String FEEDURL = "http://52.188.108.13:3000/home/";
@@ -57,6 +56,7 @@ public class HostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityHostBinding mBinding;
         mBinding = ActivityHostBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 

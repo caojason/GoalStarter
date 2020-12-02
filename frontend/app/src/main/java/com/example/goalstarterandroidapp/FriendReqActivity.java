@@ -21,8 +21,6 @@ import org.json.JSONObject;
 public class FriendReqActivity extends AppCompatActivity {
 
     private static final String FRIENDREQLISTURL = "http://52.188.108.13:3000/home/pending/";
-    private FriendsReqRecycleViewAdapter mFriendsReqAdapter;
-    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +32,9 @@ public class FriendReqActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Context currentContext = this;
+
+        final RecyclerView[] mRecyclerView = new RecyclerView[1];
+        final FriendsReqRecycleViewAdapter[] mFriendsReqAdapter = new FriendsReqRecycleViewAdapter[1];
 
 
         String userInfo = getIntent().getStringExtra("userInfo");
@@ -60,12 +61,12 @@ public class FriendReqActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         System.out.println("Friend REQ LIST" + responseArray);
-                        mFriendsReqAdapter = new FriendsReqRecycleViewAdapter(currentContext, responseArray, finalUserid);
-                        mRecyclerView = findViewById(R.id.recycler_view_friendreq_activity);
-                        mRecyclerView.setLayoutManager(new LinearLayoutManager(currentContext));
+                        mFriendsReqAdapter[0] = new FriendsReqRecycleViewAdapter(currentContext, responseArray, finalUserid);
+                        mRecyclerView[0] = findViewById(R.id.recycler_view_friendreq_activity);
+                        mRecyclerView[0].setLayoutManager(new LinearLayoutManager(currentContext));
                         BottomOffsetDecoration bottomOffsetDecoration = new BottomOffsetDecoration((int)(16 * getResources().getDisplayMetrics().density));
-                        mRecyclerView.addItemDecoration(bottomOffsetDecoration);
-                        mRecyclerView.setAdapter(mFriendsReqAdapter);
+                        mRecyclerView[0].addItemDecoration(bottomOffsetDecoration);
+                        mRecyclerView[0].setAdapter(mFriendsReqAdapter[0]);
                     }
                 }, new Response.ErrorListener() {
             @Override
