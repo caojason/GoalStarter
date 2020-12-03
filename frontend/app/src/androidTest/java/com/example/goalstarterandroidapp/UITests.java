@@ -376,7 +376,7 @@ public class UITests {
 
         ViewInteraction textView2 = onView(
                 allOf(withText("My Friend Requests"),
-                        withParent(allOf(withId(R.id.toolbar_create_goal),
+                        withParent(allOf(withId(R.id.toolbar_friend_request),
                                 withParent(withId(R.id.appBarLayout)))),
                         isDisplayed()));
         textView2.check(matches(withText("My Friend Requests")));
