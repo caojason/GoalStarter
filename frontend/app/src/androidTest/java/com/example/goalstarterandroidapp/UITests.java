@@ -102,29 +102,6 @@ public class UITests {
     }
 
     @Test
-    public void goalDetailActivityTest() {
-
-        ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.recycler_view_feed_fragment),
-                        withParent(withParent(withId(R.id.nav_host_fragment))),
-                        isDisplayed()));
-        recyclerView.check(matches(isDisplayed()));
-
-        ViewInteraction recyclerView2 = onView(
-                allOf(withId(R.id.recycler_view_feed_fragment),
-                        childAtPosition(
-                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
-                                0)));
-        recyclerView2.perform(actionOnItemAtPosition(0, click()));
-
-        ViewInteraction viewGroup = onView(
-                allOf(withParent(allOf(withId(android.R.id.content),
-                        withParent(withId(R.id.action_bar_root)))),
-                        isDisplayed()));
-        viewGroup.check(matches(isDisplayed()));
-    }
-
-    @Test
     public void logoutActivityTest() {
 
         ViewInteraction textView = onView(
@@ -380,6 +357,36 @@ public class UITests {
                                 withParent(withId(R.id.appBarLayout)))),
                         isDisplayed()));
         textView2.check(matches(withText("My Friend Requests")));
+    }
+
+    @Test
+    public void goalDetailActivityTest() {
+
+        // wait some time to allow the recycler view to load
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.recycler_view_feed_fragment),
+                        withParent(withParent(withId(R.id.nav_host_fragment))),
+                        isDisplayed()));
+        recyclerView.check(matches(isDisplayed()));
+
+        ViewInteraction recyclerView2 = onView(
+                allOf(withId(R.id.recycler_view_feed_fragment),
+                        childAtPosition(
+                                withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                0), isDisplayed()));
+        recyclerView2.perform(actionOnItemAtPosition(0, click()));
+
+        ViewInteraction viewGroup = onView(
+                allOf(withParent(allOf(withId(android.R.id.content),
+                        withParent(withId(R.id.action_bar_root)))),
+                        isDisplayed()));
+        viewGroup.check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(
