@@ -1,0 +1,24 @@
+{
+  "name": "GoalStarter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "preset": "@shelf/jest-mongodb",
+    "test": "jest --detectOpenHandles --forceExit --coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@shelf/jest-mongodb": "^1.2.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "firebase-admin": "^9.3.0",
+    "google-auth-library": "^6.1.2",
+    "jest": "^26.6.3",
+    "mongo": "^0.1.0",
+    "mongodb": "^3.6.3",
+    "morgan": "^1.10.0",
+    "supertest": "^6.0.1"
+  }
+}
